@@ -84,7 +84,7 @@ source install/setup.bash
 Clean your workspace :
 ```shell
 cd ~/rmf_ws_custom_map
-rm -f install/ build/ log/
+rm -r install/ build/ log/
 ```
 
 Build your workspace again and source it:
