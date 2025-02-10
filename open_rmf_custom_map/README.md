@@ -106,6 +106,19 @@ If you want to add robot nodes in the traffic editor, add the following properti
 ![robot_properties](figures/robot_properties_traffic_editor.png)
 
 # Tips on the custom map
+- For every change you make on any file, you need to rebuild your workspace:
+```
+cd ~/rmf_ws_custom_map
+colcon build
+source install/setup.bash
+```
+- If after the `colcon build` the changes you made did not work, you can try cleaning the workspace and building again:
+```
+rm -r log/ build/ install/
+cd ~/rmf_ws_custom_map
+colcon build
+source install/setup.bash
+```
 - Always make sure no two nodes have the same name. Otherwise, the lanes will not be loaded properly.
 - For every robot on the scene, there must be a config for it. To do this modify the config file accordingly at `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office`.
 - To add new robots to the map, you need to add a config file for the robot at `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office`. For example, if you want to add a deliveryRobot to the office demo, copy the deliveryRobot_config.yaml from the hotel example located at `/home/marcos/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/hotel/deliveryRobot_config.yaml`. Just make sure that **all the robot names** inside the `deliveryRobot_config.yaml` are the same from the robot you add/spawn in your map nodes created in the traffic-editor. Check the `name`, the `robots` and their subproperties (for example, the `charger` in the case of the delivery robot). All the name related things should mirror the robot node from the map `.building.yaml` created with the traffic editor.
