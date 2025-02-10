@@ -1,6 +1,8 @@
 # Open-RMF-Custom-Map
 
 ## Preparing the custom map workspace folder
+> We highly recommend you to create a new workspace without any other package. Otherwise, if you reuse the same workspace `rmf_ws` you used to install the Open-RMF from source, it will take much more time to build, clean, and rebuild this custom map example if needed. 
+
 Create a RMF ROS 2 workspace directory:
 ```shell
 mkdir -p rmf_ws_custom_map/src
