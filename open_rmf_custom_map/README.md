@@ -154,6 +154,8 @@ Some issues may happen. Here we leave some solutions.
 ## The order of the `source` commands matters
 When sourcing multiple workspaces, the last `source` command will take effect over the other ones. Thus, if follow the exact order of `source` commands the tutorial tells you. For instance, when [testing the custom map office](#changing-the-map), if you source first the `rmf_ws_custom_map/install/setup.bash` and then the `~/rmf_ws/install/setup.bash`, the map that will be loaded is the one in the `rmf_ws`. Therefore, to run the custom map you need to source first the `~/rmf_ws` and last the `~/rmf_ws_custom_map`.
 
+Last, to prevent any conflicts, always open a new terminal if anything stops working. Every time you open a new terminal, it opens without any previous `source` commands and you can start fresh again.
+
 ## Adding new robots to the map
 The traffic-editor should add everything you modify on the editor to the `.building.yaml` file. However, we had this issue on the first time the nodes for the new robots were added.
 
