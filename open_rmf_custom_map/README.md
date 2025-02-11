@@ -159,22 +159,12 @@ Last, to prevent any conflicts, always open a new terminal if anything stops wor
 ## Adding new robots to the map
 The traffic-editor should add everything you modify on the editor to the `.building.yaml` file. However, we had this issue on the first time the nodes for the new robots were added.
 
-To add the robots to the map, you need to add them in the `crowd_sim` property of the `.building.yaml` file manually in the `agent_groups > agents_name > [add_names_here_separated_by_commas]`. Also, change the `agents_number` to the number of agents you inserted in the list:
+To add the robots to the map, you need to add them in the `crowd_sim > agent_groups > agents_names` property of the `.building.yaml` file manually in the `agent_groups > agents_name > [add_names_here_separated_by_commas]`. Also, change the `agents_number` to the number of agents you inserted in the list:
 ```yaml
 crowd_sim:
   agent_groups:
 	  # Add the agents_name to the list of agents_name
-    - {agents_name: [tinyRobot1, tinyRobot2], agents_number: 0, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
-  agent_profiles:
-    - {ORCA_tau: 1, ORCA_tauObst: 0.40000000000000002, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
-  enable: 0
-  goal_sets: []
-  model_types: []
-  obstacle_set: {class: 1, file_name: L1_navmesh.nav, type: nav_mesh}
-  states:
-    - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
-  transitions: []
-  update_time_step: 0.10000000000000001
+    - {agents_name: [tinyRobot1, tinyRobot2, <ADD_MORE_ROBOTS_HERE>], agents_number: <NUMBER_OF_ROBOTS_USED>, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
 ```
 
 After changing things on the `office.building.yaml`, rebuild your workspace with `colcon build` and launch the map:
