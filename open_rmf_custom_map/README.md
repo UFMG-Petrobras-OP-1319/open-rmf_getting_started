@@ -105,24 +105,70 @@ If you want to add robot nodes in the traffic editor, add the following properti
 ![robot_properties](figures/robot_properties_traffic_editor.png)
 
 # Tips on the custom map
-- For every change you make on any file, you need to rebuild your workspace:
+## Changes to the workspace
+For every change you make on any file, you need to rebuild your workspace:
 ```
 cd ~/rmf_ws_custom_map
 colcon build
 source install/setup.bash
 ```
-- If after the `colcon build` the changes you made did not work, you can try cleaning the workspace and building again:
+
+If after the `colcon build` the changes you made did not work, you can try cleaning the workspace and building again:
 ```
 rm -r log/ build/ install/
 cd ~/rmf_ws_custom_map
 colcon build
 source install/setup.bash
 ```
-- Always make sure no two nodes have the same name. Otherwise, the lanes will not be loaded properly.
-- For every robot on the scene, there must be a config for it. To do this modify the config file accordingly at `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office`.
-- To add new robots to the map, you need to add a config file for the robot at `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office`. For example, if you want to add a deliveryRobot to the office demo, copy the deliveryRobot_config.yaml from the hotel example located at `/home/marcos/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/hotel/deliveryRobot_config.yaml`. Just make sure that **all the robot names** inside the `deliveryRobot_config.yaml` are the same from the robot you add/spawn in your map nodes created in the traffic-editor. Check the `name`, the `robots` and their subproperties (for example, the `charger` in the case of the delivery robot). All the name related things should mirror the robot node from the map `.building.yaml` created with the traffic editor.
-  - In this example, you may need to update the `tinyRobot_config.yaml` by adding the `tinyRobot2` and the `tinyRobot3`. You can copy the model that is already in the `tinyRobot_config.yaml` for the `tinyRobot1`.
-- To add a new fleet with different robot types, call the new fleet in the file `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/launch/office.launch.xml` (we are using the office map as the example modified custom map). Do not forget to change the `nav_graphs/<fleet_number>.yaml` to the lane of the new fleet.
+## No repeated node names in the map
+Always make sure no two nodes have the same name. Otherwise, the lanes will not be loaded properly.
+
+## Robot `_config` files
+For every robot on the scene, there must be a config for it. To do this modify the config file accordingly at `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office`.
+
+To add new robots to the map, you need to add a config file for the robot at `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office`. For example, if you want to add a deliveryRobot to the office demo, copy the deliveryRobot_config.yaml from the hotel example located at `/home/marcos/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/hotel/deliveryRobot_config.yaml`. Just make sure that **all the robot names** inside the `deliveryRobot_config.yaml` are the same from the robot you add/spawn in your map nodes created in the traffic-editor. Check the `name`, the `robots` and their subproperties (for example, the `charger` in the case of the delivery robot). All the name related things should mirror the robot node from the map `.building.yaml` created with the traffic editor.
+
+In this example, you may need to update the `tinyRobot_config.yaml` by adding the `tinyRobot2` and the `tinyRobot3`. You can copy the model that is already in the `tinyRobot_config.yaml` for the `tinyRobot1`.
+
+If you do not want to open the traffic editor to check the properties of each robot node, they are also available in the `.building.yaml` file. For instance, check the following lines inside the [office.building.yaml](./maps/office.building.yaml):
+```yaml
+...
+- [1549.2, 468.44600000000003, 0, tinyRobot1_charger, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot1], spawn_robot_type: [1, TinyRobot]}]
+- [895.73500000000001, 251.386, 0, elevator]
+- [1992.46, 632.95500000000004, 0, cubicle]
+- [1704.5699999999999, 648.94899999999996, 0, tinyRobot3_charger, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot3], spawn_robot_type: [1, TinyRobot]}]
+- [747.221, 614.67600000000004, 0, office1]
+- [2385.4520000000002, 413.61000000000001, 0, helpdesk]
+- [876.51599999999996, 1119.2380000000001, 0, tinyRobot2_charger, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot2], spawn_robot_type: [1, TinyRobot]}]
+- [1513.9860000000001, 648.31700000000001, 0, deliveryRobot1_charger, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot1], spawn_robot_type: [1, DeliveryRobot]}]
+...
+```
+
+Last, after you have all the robot nodes properties, you can change the `_config.yaml` files of each robot. For instance, the `tinyRobot_config.yaml` will have the following lines modified (**note the names are exactly the same from the properties above**):
+```yaml
+...
+robots:
+    tinyRobot1:
+        charger: "tinyRobot1_charger"
+        responsive_wait: False # Should responsive wait be on/off for this specific robot? Overrides the fleet-wide setting.
+    tinyRobot2:
+        charger: "tinyRobot2_charger"
+        # No mention of responsive_wait means the fleet-wide setting will be used
+    tinyRobot3: 
+        charger: "tinyRobot3_charger"
+...
+```
+and the `deliveryRobot_config.yaml` will have the following modifications:
+```yaml
+...
+robots:
+    deliveryRobot1:
+      charger: "deliveryRobot1_charger"
+...
+```
+
+## Add different fleets of robots
+To add a new fleet with different robot types, call the new fleet in the file `~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/launch/office.launch.xml` (we are using the office map as the example modified custom map). Do not forget to change the `nav_graphs/<fleet_number>.yaml` to the lane of the new fleet. **Note that the Open-RMF does not solve conflicts between two different lanes. Thus, if you have different lanes, make sure they will not cause conflicts or collisions.**
 ```xml
 ...
 <!-- TinyRobot fleet adapter -->
@@ -144,9 +190,10 @@ source install/setup.bash
     </include>
   </group>
 ```
-- If you want to add the fleet on a new lane/route different, you need to change the lane graph in the traffic-editor. To do this, click on the lane you want to change and press a number from 0 to 10. It should change the color of the lane graph. Each graph correspond to a number and a color. The blue lane is on graph 1. When calling the fleet adapter on the `.launch.xml` just change the `nav_graphs` to the layer you want (in this case `1.yaml`):
-![lane_graphs](figures/lane_graphs.png)
 
+## Using different lanes on the map
+If you want to add the fleet on a new lane/route different, you need to change the lane graph in the traffic-editor. To do this, click on the lane you want to change and press a number from 0 to 10. It should change the color of the lane graph. Each graph correspond to a number and a color. The blue lane is on graph 1. When calling the fleet adapter on the `.launch.xml` just change the `nav_graphs` to the layer you want (in this case `1.yaml`):
+![lane_graphs](figures/lane_graphs.png)
 
 # Issues
 Some issues may happen. Here we leave some solutions.
