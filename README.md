@@ -221,6 +221,7 @@ Next create a ROS 2 workspace and build `rmf_demos` from source. Replace the 
 mkdir ~/rmf_ws/src -p
 cd ~/rmf_ws/src
 git clone https://github.com/open-rmf/rmf_demos.git 
+cd rmf_demos
 git checkout jazzy
 ```
 
