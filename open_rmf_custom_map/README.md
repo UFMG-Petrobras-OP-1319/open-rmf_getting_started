@@ -48,16 +48,12 @@ colcon build
 ```
 **If the `colcon build` result in any packages not being built correctly, run it a second time. After the second time, all packages will probably be built, not sure why.**
 
-
-Now, after the build finished, source the workspace:
-```shell 
-source ~/rmf_ws_custom_map/install/setup.bash
-```
-
-Let us check if the build worked by running a demo example. Source your open-rmf installation (that you installed from source) and run the demo:
+Let us check if the build worked by running a demo example. Source your open-rmf installation (that you installed from source), source the custom map workspace, and run the demo. **Follow exactly this order of `source` commands**:
 ```shell
 # source the open-rmf installation from source
 source ~/rmf_ws/install/setup.bash
+# Source the custom_map workspace
+source ~/rmf_ws_custom_map/install/setup.bash
 # Run the office demo
 ros2 launch rmf_demos_gz office.launch.xml
 ```
@@ -154,6 +150,9 @@ source install/setup.bash
 
 # Issues
 Some issues may happen. Here we leave some solutions.
+
+## The order of the `source` commands matters
+When sourcing multiple workspaces, the last `source` command will take effect over the other ones. Thus, if follow the exact order of `source` commands the tutorial tells you. For instance, when [testing the custom map office](#changing-the-map), if you source first the `rmf_ws_custom_map/install/setup.bash` and then the `~/rmf_ws/install/setup.bash`, the map that will be loaded is the one in the `rmf_ws`. Therefore, to run the custom map you need to source first the `~/rmf_ws` and last the `~/rmf_ws_custom_map`.
 
 ## Adding new robots to the map
 The traffic-editor should add everything you modify on the editor to the `.building.yaml` file. However, we had this issue on the first time the nodes for the new robots were added.
