@@ -21,7 +21,7 @@ git clone https://github.com/open-rmf/rmf_demos.git
 Change to the `jazzy` branch (**this branch is more stable than the main branch for the ROS 2 jazzy**):
 ```shell
 cd rmf_demos
-git checkout 
+git checkout jazzy
 ```
 
 Change back to the workspace folder, check for missing dependencies:
