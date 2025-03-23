@@ -1,0 +1,20 @@
+[project]
+name = "doc-env"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Iuro Nascimento",email = "iurobpn@proton.me"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "sphinx (>=8.2.3,<9.0.0)",
+    "myst-parser (>=4.0.1,<5.0.0)",
+    "sphinx-autodoc-typehints (>=3.1.0,<4.0.0)",
+    "sphinx-rtd-theme (>=3.0.2,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
