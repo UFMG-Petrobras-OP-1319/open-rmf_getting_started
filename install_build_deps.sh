@@ -5,158 +5,205 @@ set -e
 # Documentation and Explanation
 #############################################
 #
-# This script sets up an isolated environment using Poetry for building
-# Sphinx-based documentation from Markdown files. Here's the high-level flow:
+# This script installs pipx, installs Poetry via pipx, sets up a dedicated
+# Poetry environment for Sphinx, MyST, and other doc packages, and optionally
+# installs Poetry shell completions for Bash, Fish, and Zsh.
 #
-# 1. **pipx**:
-#    - pipx is a tool to install and run Python CLI tools in isolated environments.
-#    - Installing pipx "globally" (i.e., in your user environment) allows you to
-#      cleanly install tools like Poetry without polluting system packages.
+# Steps:
+#   1. Install pipx (isolated Python CLI tool installer).
+#   2. Install Poetry via pipx, so Poetry itself is isolated.
+#   3. (Optional) Configure Poetry to put its venv in .env/doc at the root of the project.
+#   4. Initialize or update pyproject.toml to include Sphinx, MyST Parser, etc.
+#   5. Install Poetry shell completions if the corresponding shells are detected.
+#   6. Optionally add an auto-activation line to ~/.bashrc, so that the doc environment
+#      is sourced automatically for new Bash sessions.
 #
-# 2. **Poetry via pipx**:
-#    - Poetry is a Python dependency manager and virtual environment manager.
-#    - By installing it via pipx, Poetry itself is isolated from system Python.
+# Environment nesting:
+#   - You can physically run `poetry shell` inside another environment, but
+#     it's not recommended. Deactivate or exit your other environment first
+#     to avoid conflict.
 #
-# 3. **Poetry environment**:
-#    - Once Poetry is installed, we create (or use) a Poetry project that
-#      contains all dependencies for generating Sphinx docs.
-#    - Sphinx, myst-parser, sphinx-autodoc-typehints, and the sphinx_rtd_theme
-#      are installed *inside* that Poetry environment, not in your system Python.
-#
-# 4. **Why these packages?**:
-#    - sphinx: The main Sphinx engine to transform .md/.rst into HTML (and other formats).
-#    - myst-parser: Lets Sphinx understand Markdown files using MyST syntax.
-#    - sphinx-autodoc-typehints: Display Python function/method type hints in the docs
-#      (useful if you had Python code, but it won’t hurt if you don’t).
-#    - sphinx_rtd_theme: Popular “Read the Docs” HTML theme for Sphinx.
-#    - napoleon (part of sphinx.ext) parses Google or NumPy-style docstrings (again,
-#      useful if you had Python code).
-#
-# 5. **Isolation benefits**:
-#    - You might already use Conda, virtualenv, or other environment managers for your
-#      own Python projects. Poetry creates *its own* environment for the documentation
-#      tools, so it won’t interfere with your personal environment or system packages.
-#    - You only “activate” this Poetry environment when you want to build docs; otherwise,
-#      your personal environment remains unaffected.
-#
-# 6. **Auto-activation**:
-#    - Optional step to add “source path/to/poetry/env/bin/activate” in your ~/.bashrc
-#      so the doc environment is automatically active in new shells. If you prefer
-#      manual activation (with `poetry shell` or the `source` command), remove that step.
+# .env/doc in the root:
+#   - If you want a truly local environment, you can configure Poetry to place
+#     the venv at "./.env/doc". This keeps doc-building dependencies separate
+#     from the user’s global Python or conda environment.
 #
 #############################################
 
 #############################################
-# 0. Pre-flight checks (optional)
+# 0. Pre-flight checks
 #############################################
 
-# Make sure Python and pip are installed (basic check)
+# Make sure Python and pip are installed (basic check).
 if ! command -v python3 &> /dev/null; then
-  echo "Python3 is not installed or not in PATH. Please install it first."
-  exit 1
+    sudo apt install python3 python3-venv python3-pip pipx
 fi
+
 if ! command -v pip &> /dev/null; then
-  echo "pip is not installed or not in PATH. Please install it first."
-  exit 1
+    sudo apt install python3-pip
+fi
+if ! command -v pipx &> /dev/null; then
+    sudo apt install pipx
 fi
 
 #############################################
 # 1. Install pipx (user-wide)
 #############################################
 echo "Installing pipx (if not already installed)..."
-pip install --user --upgrade pipx
 python3 -m pipx ensurepath
-
-# Refresh shell so that pipx is immediately recognized (optional)
-# You might need to restart your terminal session, or source your rc file:
-# source ~/.bashrc  # or ~/.zshrc, etc.
 
 #############################################
 # 2. Install Poetry via pipx
 #############################################
 echo "Installing Poetry via pipx..."
-pipx install poetry
+pipx install poetry || true  # if already installed, ignore error
+
+# Make sure 'poetry' is in PATH now. If not, user might need to re-source shell.
+if ! command -v poetry &> /dev/null; then
+    echo "Poetry not found in PATH. Try opening a new terminal or run:"
+    echo "  source ~/.bashrc"
+    echo "Then re-run this script if needed."
+    exit 1
+fi
 
 #############################################
-# 3. Set up a Poetry environment for docs
+# 3. (Optional) Configure Poetry to store venv in .env/doc
 #############################################
-# You can use an existing project or create a new one if you want. 
-# For simplicity, let's do it in the current directory.
+# If you want a local environment, un-comment below lines:
+#
+# echo "Configuring Poetry to store the virtualenv at ./.env/doc..."
 
-# Initialize a pyproject.toml if you don't already have one:
+# (pwd)/.env/doc
+# echo
+# read -p 'Configure Poetry to store the virtualenv at ./.env/doc? [y/N] ' AUTO_ACTIVATE
+# if [[ "$AUTO_ACTIVATE" =~ ^[Yy]$ ]]; then
+#     poetry config virtualenvs.in-project = true
+# fi
+
+#
+# Explanation: This sets the path for all Poetry-managed virtualenvs in this project
+# to .env/doc. If you only want a single local venv, you might also set:
+#   poetry config virtualenvs.in-project true
+# But that typically creates .venv/ in the project root. Choose whichever you prefer.
+
+#############################################
+# 4. Create or update Poetry project dependencies
+#############################################
+# If there's no pyproject.toml, let's create a minimal one:
 if [ ! -f "pyproject.toml" ]; then
-  echo "No pyproject.toml found, creating a minimal Poetry project..."
-  poetry init --name doc-env --dependency "sphinx" --dependency "myst-parser" \
-              --dependency "sphinx-autodoc-typehints" --dependency "sphinx_rtd_theme" \
-              -n
+    echo "No pyproject.toml found, creating a minimal Poetry project..."
+    # -n for no interactive prompts
+    poetry init --name doc-env \
+        --dependency "sphinx" \
+        --dependency "myst-parser" \
+        --dependency "sphinx-autodoc-typehints" \
+        --dependency "sphinx_rtd_theme" \
+        -n
+        else
+            echo "pyproject.toml found, ensuring required packages are present..."
 fi
-
-# If you do already have a pyproject.toml, you can just 'poetry add' the deps:
-poetry add sphinx myst-parser sphinx-autodoc-typehints sphinx_rtd_theme
+poetry install --no-root
 
 #############################################
-# 4. (Optional) Auto-activate environment
+# 5. Install Poetry shell completions
 #############################################
-# By default, Poetry won't force an environment to be active in your shell. 
-# If you prefer to manually type `poetry shell` each time you want to build docs,
-# skip this step. Otherwise, we can append a "source" line to your ~/.bashrc.
-
 echo
-read -p "Do you want to automatically activate the Poetry doc environment in your shell? [y/N] " AUTO_ACTIVATE
-if [[ "$AUTO_ACTIVATE" =~ ^[Yy]$ ]]; then
-  # We fetch the venv path from Poetry
-  POETRY_ENV_PATH=$(poetry env info --path 2>/dev/null || true)
-  if [ -z "$POETRY_ENV_PATH" ]; then
-    # If the environment doesn't exist yet, create it
-    echo "No active virtual environment found, creating one..."
-    poetry install
-    POETRY_ENV_PATH=$(poetry env info --path)
-  fi
+echo "Installing Poetry shell completions if shells are present..."
+# BASH completions
+if command -v bash &> /dev/null; then
+    # Typically we can write completions to ~/.local/share/bash-completion/completions/poetry
+    # or /etc/bash_completion.d/poetry if we have root permissions.
+    COMPLETION_DIR="$HOME/.local/share/bash-completion/completions"
+    mkdir -p "$COMPLETION_DIR"
+    poetry completions bash > "$COMPLETION_DIR/poetry"
+    echo "Bash completions installed at $COMPLETION_DIR/poetry"
+    fi
 
-  # Append the source line to ~/.bashrc (or another shell rc)
-  if [ -n "$POETRY_ENV_PATH" ]; then
-    echo "source \"$POETRY_ENV_PATH/bin/activate\"" >> ~/.bashrc
-    echo "Added 'source \"$POETRY_ENV_PATH/bin/activate\"' to your ~/.bashrc."
-    echo "Open a new terminal or 'source ~/.bashrc' to activate automatically."
-  else
-    echo "Could not determine Poetry environment path. Please activate manually."
-  fi
+# FISH completions
+if command -v fish &> /dev/null; then
+    # Usually fish completions live in ~/.config/fish/completions/
+    FISH_COMPLETIONS_DIR="$HOME/.config/fish/completions"
+    mkdir -p "$FISH_COMPLETIONS_DIR"
+    poetry completions fish > "$FISH_COMPLETIONS_DIR/poetry.fish"
+    echo "Fish completions installed at $FISH_COMPLETIONS_DIR/poetry.fish"
 fi
 
-#############################################
-# 5. Instructions for building docs
-#############################################
+# ZSH completions
+if command -v zsh &> /dev/null; then
+    # There's no universal standard for user-level zsh completion. 
+    # We'll create ~/.zfunc and add it to fpath if not already set.
+    ZFUNC_DIR="$HOME/.zfunc"
+    mkdir -p "$ZFUNC_DIR"
+    poetry completions zsh > "$ZFUNC_DIR/_poetry"
 
+  # Add to fpath in ~/.zshrc if not present:
+  if ! grep -q "$ZFUNC_DIR" "$HOME/.zshrc" 2>/dev/null; then
+      echo "fpath+=${ZFUNC_DIR}" >> "$HOME/.zshrc"
+      echo "Added 'fpath+=${ZFUNC_DIR}' to ~/.zshrc for Zsh completions."
+  fi
+  echo "Zsh completions installed at $ZFUNC_DIR/_poetry"
+  echo "Restart or re-source your shell to enable completions."
+  fi
+
+#############################################
+# 6. (Optional) Auto-activate environment in .bashrc
+#############################################
+# You might prefer manual activation with `poetry shell`.
+# echo
+# read -p "Auto-activate doc-env in your .bashrc on new shells? [y/N] " AUTO_ACTIVATE
+# if [[ "$AUTO_ACTIVATE" =~ ^[Yy]$ ]]; then
+#   # Ensure the environment is created
+#   poetry install
+#   POETRY_ENV_PATH=$(poetry env info --path 2>/dev/null || true)
+#   if [ -n "$POETRY_ENV_PATH" ]; then
+#     # Add a line to ~/.bashrc
+#     echo "source \"$POETRY_ENV_PATH/bin/activate\"" >> "$HOME/.bashrc"
+#     echo "Added 'source \"$POETRY_ENV_PATH/bin/activate\"' to ~/.bashrc."
+#     echo "Open a new terminal or 'source ~/.bashrc' to activate automatically."
+#   else
+#     echo "Could not determine Poetry environment path. Please activate manually."
+#   fi
+# fi
+
+#############################################
+# 7. Final Instructions
+#############################################
 cat << EOF
 
 ===============================================================
 Installation complete!
 
-- You now have a Poetry-based environment that includes:
-  Sphinx, myst-parser, sphinx-autodoc-typehints, sphinx_rtd_theme.
+Here's a summary:
 
-- Your Sphinx config file (conf.py) can remain where it is. 
-- Your docs are in Markdown (index.md, api.md, usage.md), so you'll rely on MyST.
+1) A Poetry-based environment for Sphinx docs is now set up:
+- Packages installed: Sphinx, myst-parser, sphinx-autodoc-typehints,
+sphinx_rtd_theme (and the built-in napoleon in sphinx).
 
-To build your documentation:
+2) Poetry completions:
+- Installed completions for each shell found (bash, fish, zsh).
+- You may need to restart or re-source your shell for them to take effect.
 
-1) Activate the environment:
-   - If you chose auto-activation (above), simply open a new terminal,
-     and your doc-env will be active automatically.
-   - Otherwise, run:
-       poetry shell
-     to activate the environment.
+3) Activating the environment:
+- If you enabled auto-activation, open a new Bash shell and it should
+already be activated. Otherwise, use:
+poetry shell
+from this project directory.
 
-2) From within that environment, run:
-   make html
+4) Building docs:
+- Run "make html" if you have a Makefile that calls sphinx-build.
+- Or use "sphinx-build -b html . build" (assuming conf.py is in this folder).
+- Your HTML docs will appear in ./build/html/.
 
-   ...or equivalently:
-   sphinx-build -b html . build
+5) Nested environments:
+- While possible, it's usually not recommended to have Poetry's environment
+active within another environment (like conda/venv). Deactivate or exit
+your existing environment first to avoid conflicts.
 
-   The HTML output will appear in ./build/html/.
+6) Using .env/doc:
+- If you uncommented the lines to set "poetry config virtualenvs.path ...",
+your environment is stored locally at ./.env/doc. That helps isolate doc
+dependencies from your system or conda environments.
 
-When you no longer need the doc environment, you can 'exit' or close the shell.
-This keeps your system's main Python environment clean and unaffected.
+All done! Enjoy your Sphinx docs in an isolated Poetry environment.
 ===============================================================
 EOF
-
