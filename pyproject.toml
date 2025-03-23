@@ -1,5 +1,5 @@
 [project]
-name = "doc-env"
+name = "op1319-docs"
 version = "0.1.0"
 description = ""
 authors = [
@@ -13,6 +13,9 @@ dependencies = [
     "sphinx-autodoc-typehints (>=3.1.0,<4.0.0)",
     "sphinx-rtd-theme (>=3.0.2,<4.0.0)"
 ]
+
+[tool.poetry]
+package-mode=false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

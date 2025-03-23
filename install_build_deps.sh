@@ -18,14 +18,9 @@ set -e
 #   6. Optionally add an auto-activation line to ~/.bashrc, so that the doc environment
 #      is sourced automatically for new Bash sessions.
 #
-# Environment nesting:
-#   - You can physically run `poetry shell` inside another environment, but
-#     it's not recommended. Deactivate or exit your other environment first
-#     to avoid conflict.
-#
-# .env/doc in the root:
+# .venv in the root:
 #   - If you want a truly local environment, you can configure Poetry to place
-#     the venv at "./.env/doc". This keeps doc-building dependencies separate
+#     the venv at "./.venv". This keeps doc-building dependencies separate
 #     from the user’s global Python or conda environment.
 #
 #############################################
@@ -42,6 +37,7 @@ fi
 if ! command -v pip &> /dev/null; then
     sudo apt install python3-pip
 fi
+
 if ! command -v pipx &> /dev/null; then
     sudo apt install pipx
 fi
@@ -66,21 +62,7 @@ if ! command -v poetry &> /dev/null; then
     exit 1
 fi
 
-#############################################
-# 3. (Optional) Configure Poetry to store venv in .env/doc
-#############################################
-# If you want a local environment, un-comment below lines:
-#
-# echo "Configuring Poetry to store the virtualenv at ./.env/doc..."
 
-# (pwd)/.env/doc
-# echo
-# read -p 'Configure Poetry to store the virtualenv at ./.env/doc? [y/N] ' AUTO_ACTIVATE
-# if [[ "$AUTO_ACTIVATE" =~ ^[Yy]$ ]]; then
-#     poetry config virtualenvs.in-project = true
-# fi
-
-#
 # Explanation: This sets the path for all Poetry-managed virtualenvs in this project
 # to .env/doc. If you only want a single local venv, you might also set:
 #   poetry config virtualenvs.in-project true
@@ -93,16 +75,27 @@ fi
 if [ ! -f "pyproject.toml" ]; then
     echo "No pyproject.toml found, creating a minimal Poetry project..."
     # -n for no interactive prompts
-    poetry init --name doc-env \
+    poetry init --name op1319_docs \
         --dependency "sphinx" \
         --dependency "myst-parser" \
         --dependency "sphinx-autodoc-typehints" \
         --dependency "sphinx_rtd_theme" \
         -n
-        else
-            echo "pyproject.toml found, ensuring required packages are present..."
+else
+    echo "pyproject.toml found, ensuring required packages are present..."
 fi
-poetry install --no-root
+
+#############################################
+# 3. (Optional) Configure Poetry to store venv in .env/doc
+#############################################
+# If you want a local environment, un-comment below lines:
+#
+# echo "Configuring Poetry to store the virtualenv at ./.env/doc..."
+
+# (pwd)/.env/doc
+#poetry config virtualenvs.in-project = true
+
+poetry install
 
 #############################################
 # 5. Install Poetry shell completions
@@ -113,12 +106,14 @@ echo "Installing Poetry shell completions if shells are present..."
 if command -v bash &> /dev/null; then
     # Typically we can write completions to ~/.local/share/bash-completion/completions/poetry
     # or /etc/bash_completion.d/poetry if we have root permissions.
-    COMPLETION_DIR="$HOME/.local/share/bash-completion/completions"
-    mkdir -p "$COMPLETION_DIR"
-    poetry completions bash > "$COMPLETION_DIR/poetry"
-    echo "Bash completions installed at $COMPLETION_DIR/poetry"
-    fi
+    poetry completions bash >> ~/.bash_completion
+    echo "Bash completions installed at ~/.bash_completion"
+fi
 
+## pyautoenv installation
+if [[ ! -d /opt/pyautoenv ]]; then
+    git clone https://github.com/hsaunders1904/pyautoenv.git /opt/pyautoenv
+fi
 # FISH completions
 if command -v fish &> /dev/null; then
     # Usually fish completions live in ~/.config/fish/completions/
@@ -126,6 +121,8 @@ if command -v fish &> /dev/null; then
     mkdir -p "$FISH_COMPLETIONS_DIR"
     poetry completions fish > "$FISH_COMPLETIONS_DIR/poetry.fish"
     echo "Fish completions installed at $FISH_COMPLETIONS_DIR/poetry.fish"
+
+    echo 'source /opt/pyauotenv/pyautoenv.fish' >> ~/.config/fish/config.fish
 fi
 
 # ZSH completions
@@ -136,34 +133,16 @@ if command -v zsh &> /dev/null; then
     mkdir -p "$ZFUNC_DIR"
     poetry completions zsh > "$ZFUNC_DIR/_poetry"
 
-  # Add to fpath in ~/.zshrc if not present:
-  if ! grep -q "$ZFUNC_DIR" "$HOME/.zshrc" 2>/dev/null; then
-      echo "fpath+=${ZFUNC_DIR}" >> "$HOME/.zshrc"
-      echo "Added 'fpath+=${ZFUNC_DIR}' to ~/.zshrc for Zsh completions."
-  fi
-  echo "Zsh completions installed at $ZFUNC_DIR/_poetry"
-  echo "Restart or re-source your shell to enable completions."
-  fi
+    # Add to fpath in ~/.zshrc if not present:
+    if ! grep -q "$ZFUNC_DIR" "$HOME/.zshrc" 2>/dev/null; then
+        echo "fpath+=${ZFUNC_DIR}" >> "$HOME/.zshrc"
+        echo "Added 'fpath+=${ZFUNC_DIR}' to ~/.zshrc for Zsh completions."
+    fi
+    echo "Zsh completions installed at $ZFUNC_DIR/_poetry"
+    echo "Restart or re-source your shell to enable completions."
 
-#############################################
-# 6. (Optional) Auto-activate environment in .bashrc
-#############################################
-# You might prefer manual activation with `poetry shell`.
-# echo
-# read -p "Auto-activate doc-env in your .bashrc on new shells? [y/N] " AUTO_ACTIVATE
-# if [[ "$AUTO_ACTIVATE" =~ ^[Yy]$ ]]; then
-#   # Ensure the environment is created
-#   poetry install
-#   POETRY_ENV_PATH=$(poetry env info --path 2>/dev/null || true)
-#   if [ -n "$POETRY_ENV_PATH" ]; then
-#     # Add a line to ~/.bashrc
-#     echo "source \"$POETRY_ENV_PATH/bin/activate\"" >> "$HOME/.bashrc"
-#     echo "Added 'source \"$POETRY_ENV_PATH/bin/activate\"' to ~/.bashrc."
-#     echo "Open a new terminal or 'source ~/.bashrc' to activate automatically."
-#   else
-#     echo "Could not determine Poetry environment path. Please activate manually."
-#   fi
-# fi
+    echo 'source /opt/pyauotenv/pyautoenv.zsh' >> ~/.zshrc
+fi
 
 #############################################
 # 7. Final Instructions
