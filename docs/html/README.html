@@ -1,0 +1,694 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>open-rmf_getting_started &mdash; op1319  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to build the html and latex documentation" href="build-docs.html" />
+    <link rel="prev" title="OP1319 Fleet Management Software" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            op1319
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">open-rmf_getting_started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#roadmap">Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#readme-sections">README sections</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ros-2">ROS 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#gazebo-installation">Gazebo installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#gazebo-ros-2-installation">Gazebo ROS 2 installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#open-rmf">Open-RMF</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparation-to-install-the-open-rmf">Preparation to install the Open-RMF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#choose-your-open-rmf-installation-type">Choose your Open-RMF installation type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-installation">Binary installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-open-rmf-from-source">Building Open-RMF from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-the-source-code">Download the source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-rmf-demos">Installing the rmf_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-a-demo">Testing a demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#traffic-editor">Traffic Editor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tips-for-the-rmf-traffic-editor-tutorial">Tips for the rmf-traffic-editor tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#running-a-custom-map">Running a custom map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#additional-tools">Additional tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started-with-the-rmf-web">Getting started with the rmf-web</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-open-rmf-web">Installing Open-RMF Web</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-the-rmf-web">Get the rmf-web</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#launching-for-development">Launching for development</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-using-the-apt-repository">Install using the <code class="docutils literal notranslate"><span class="pre">apt</span></code> repository</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#solutions-to-some-reported-issues">Solutions to some reported issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gazebo-issue-with-multicast">Gazebo issue with multicast</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-docs.html">How to build the html and latex documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install-docs.html">Build system installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="open_rmf_custom_map/README.html">Open-RMF-Custom-Map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="open_rmf_custom_map/README.html#tips-on-the-custom-map">Tips on the custom map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="open_rmf_custom_map/README.html#issues">Issues</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">op1319</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">open-rmf_getting_started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="open-rmf-getting-started">
+<h1>open-rmf_getting_started<a class="headerlink" href="#open-rmf-getting-started" title="Link to this heading"></a></h1>
+<p>This is a OP1319 repository that contains a getting started tutorial to use the Open-RMF and its tools.</p>
+</section>
+<section id="roadmap">
+<h1>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading"></a></h1>
+<p>There are a few options to follow:</p>
+<ol class="arabic simple">
+<li><p>Run the Open-RMF demos: install the Open-RMF from binaries and follow the tutorial until the <a class="reference internal" href="#testing-a-demo"><span class="xref myst">rmf_demos section</span></a>.</p></li>
+<li><p>Create a custom map: install the Open-RMF from binaries and follow the tutorial until the <a class="reference internal" href="#running-a-custom-map"><span class="xref myst">custom map section</span></a>.</p></li>
+<li><p>If you wish to use the rmf_web: install from binaries and follow the tutorial until the <a class="reference internal" href="#get-the-rmf-web"><span class="xref myst">rmf_web section</span></a></p></li>
+<li><p>If you wish to have full control over the Open-RMF: install from source and do all the sections in this tutorial.</p></li>
+</ol>
+<section id="readme-sections">
+<h2>README sections<a class="headerlink" href="#readme-sections" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#open-rmf_getting_started"><span class="xref myst">open-rmf_getting_started</span></a></p></li>
+<li><p><a class="reference internal" href="#roadmap"><span class="xref myst">Roadmap</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#readme-sections"><span class="xref myst">README sections</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#ros-2"><span class="xref myst">ROS 2</span></a></p></li>
+<li><p><a class="reference internal" href="#gazebo-installation"><span class="xref myst">Gazebo installation</span></a></p></li>
+<li><p><a class="reference internal" href="#gazebo-ros-2-installation"><span class="xref myst">Gazebo ROS 2 installation</span></a></p></li>
+<li><p><a class="reference internal" href="#open-rmf"><span class="xref myst">Open-RMF</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#preparation-to-install-the-open-rmf"><span class="xref myst">Preparation to install the Open-RMF</span></a></p></li>
+<li><p><a class="reference internal" href="#choose-your-open-rmf-installation-type"><span class="xref myst">Choose your Open-RMF installation type</span></a></p></li>
+<li><p><a class="reference internal" href="#binary-installation"><span class="xref myst">Binary installation</span></a></p></li>
+<li><p><a class="reference internal" href="#building-open-rmf-from-source"><span class="xref myst">Building Open-RMF from source</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#download-the-source-code"><span class="xref myst">Download the source code</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#installing-the-rmf_demos"><span class="xref myst">Installing the rmf_demos</span></a></p></li>
+<li><p><a class="reference internal" href="#testing-a-demo"><span class="xref myst">Testing a demo</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#traffic-editor"><span class="xref myst">Traffic Editor</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation"><span class="xref myst">Installation</span></a></p></li>
+<li><p><a class="reference internal" href="#overview"><span class="xref myst">Overview</span></a></p></li>
+<li><p><a class="reference internal" href="#tips-for-the-rmf-traffic-editor-tutorial"><span class="xref myst">Tips for the rmf-traffic-editor tutorial</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#running-a-custom-map"><span class="xref myst">Running a custom map</span></a></p></li>
+<li><p><a class="reference internal" href="#additional-tools"><span class="xref myst">Additional tools</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#getting-started-with-the-rmf-web"><span class="xref myst">Getting started with the rmf-web</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#prerequisites"><span class="xref myst">Prerequisites</span></a></p></li>
+<li><p><a class="reference internal" href="#installing-open-rmf-web"><span class="xref myst">Installing Open-RMF Web</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#get-the-rmf-web"><span class="xref myst">Get the rmf-web</span></a></p></li>
+<li><p><a class="reference internal" href="#install-dependencies"><span class="xref myst">Install dependencies</span></a></p></li>
+<li><p><a class="reference internal" href="#launching-for-development"><span class="xref myst">Launching for development</span></a></p></li>
+<li><p><a class="reference internal" href="#configuration"><span class="xref myst">Configuration</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docker"><span class="xref myst">Docker</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#prerequisites-1"><span class="xref myst">Prerequisites</span></a></p></li>
+<li><p><a class="reference internal" href="#install-using-theaptrepository"><span class="xref myst">Install using the <code class="docutils literal notranslate"><span class="pre">apt</span></code> repository</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#solutions-to-some-reported-issues"><span class="xref myst">Solutions to some reported issues</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#gazebo-issue-with-multicast"><span class="xref myst">Gazebo issue with multicast</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p>Extra tutorials:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="open_rmf_custom_map/README.html"><span class="std std-doc">Open-RMF custom map</span></a></p></li>
+</ul>
+</section>
+</section>
+<section id="ros-2">
+<h1>ROS 2<a class="headerlink" href="#ros-2" title="Link to this heading"></a></h1>
+<p>One of the main tools used in the project is ROS 2, which is used to communicate with the robots. This is the first thing to be installed.
+Install ROS 2 by following the <a class="reference external" href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#">ROS 2 official install guide</a>.</p>
+<p><strong>Important</strong>: In the <a class="reference external" href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#">ROS 2 official install guide</a>, they recommend to install the ROS 2 desktop. However, we recommend everyone to install the ROS 2 full. By installing the ROS 2 full, the Gazebo Harmonic is installed automatically. Thus, you may skip the <a class="reference internal" href="#gazebo-installation"><span class="xref myst">Gazebo section</span></a>, you will only need the <a class="reference internal" href="#gazebo-ros-2-installation"><span class="xref myst">Gazebo ROS 2 section</span></a>. To install the ROS 2 full, when you reach the <a class="reference external" href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#install-ros-2">install part</a> of the ROS 2 install guide, run the command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ros-jazzy-desktop-full
+</pre></div>
+</div>
+<p>In the ROS 2 official install guide, they install only the ROS 2 desktop.</p>
+</section>
+<section id="gazebo-installation">
+<h1>Gazebo installation<a class="headerlink" href="#gazebo-installation" title="Link to this heading"></a></h1>
+<p>Another main tool used in the project is the Gazebo simulator. We are using the Gazebo Harmonic.</p>
+<blockquote>
+<div><p>If you installed the ROS 2 full in the <a class="reference internal" href="#ros-2"><span class="xref myst">ROS 2 section</span></a>, there is no need to install the Gazebo Harmonic again and you may skip this section. Continue in the <a class="reference internal" href="#gazebo-ros-2-installation"><span class="xref myst">Gazebo ROS 2 section</span></a>. For the sake of documentation, and for the case we want to install only the ROS 2 desktop in the final application, we will leave this section here.</p>
+</div></blockquote>
+<p>We need to install both the Gazebo and the Gazebo ROS 2 packages. First, install Gazebo. <strong>If only the Gazebo ROS 2 is installed, the demo examples may not run correctly.</strong></p>
+<p>Follow the <a class="reference external" href="https://gazebosim.org/docs/harmonic/install_ubuntu/">Gazebo Harmonic installation guide</a>. Here follows a copy of the instructions.</p>
+<p>Harmonic binaries are provided for Ubuntu Jammy (22.04) and Ubuntu Noble (24.04). The Harmonic binaries are hosted in the <a class="reference external" href="http://packages.osrfoundation.org/">packages.osrfoundation.org</a> repository. To install all of them, the metapackage <code class="docutils literal notranslate"><span class="pre">gz-harmonic</span></code> can be installed.</p>
+<p>First install some necessary tools:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">curl</span> <span class="n">lsb</span><span class="o">-</span><span class="n">release</span> <span class="n">gnupg</span>
+</pre></div>
+</div>
+<p>Then install Gazebo Harmonic:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">curl</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">packages</span><span class="o">.</span><span class="n">osrfoundation</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">gazebo</span><span class="o">.</span><span class="n">gpg</span> <span class="o">--</span><span class="n">output</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">keyrings</span><span class="o">/</span><span class="n">pkgs</span><span class="o">-</span><span class="n">osrf</span><span class="o">-</span><span class="n">archive</span><span class="o">-</span><span class="n">keyring</span><span class="o">.</span><span class="n">gpg</span>
+<span class="n">echo</span> <span class="s2">&quot;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main&quot;</span> <span class="o">|</span> <span class="n">sudo</span> <span class="n">tee</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">apt</span><span class="o">/</span><span class="n">sources</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">gazebo</span><span class="o">-</span><span class="n">stable</span><span class="o">.</span><span class="n">list</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gz</span><span class="o">-</span><span class="n">harmonic</span>
+</pre></div>
+</div>
+<p>All libraries should be ready to use and the <code class="docutils literal notranslate"><span class="pre">gz sim</span></code> app ready to be executed.</p>
+<p><strong>If the gazebo window does not load correctly, check the <a class="reference internal" href="#gazebo-issue-with-multicast"><span class="xref myst">multicast issue</span></a>.</strong></p>
+</section>
+<section id="gazebo-ros-2-installation">
+<h1>Gazebo ROS 2 installation<a class="headerlink" href="#gazebo-ros-2-installation" title="Link to this heading"></a></h1>
+<blockquote>
+<div><p>This Gazebo ROS 2 is required to run the Open-RMF demos. Thus, do not skip this section.</p>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p>If you are using ROS 2, follow this <a class="reference external" href="https://gazebosim.org/docs/latest/ros_installation/#summary-of-compatible-ros-and-gazebo-combinations">tutorial</a> to install the ROS 2 Gazebo Harmonic</p></li>
+<li><p>Install it with : <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">ros-jazzy-ros-gz</span></code></p></li>
+</ol>
+</section>
+<section id="open-rmf">
+<h1>Open-RMF<a class="headerlink" href="#open-rmf" title="Link to this heading"></a></h1>
+<p>The Open-RMF is the other main tool used in the project. It is a robot fleet management system. It is ROS 2 based. To install it, you can follow the <a class="reference external" href="https://github.com/open-rmf/rmf/blob/main/README.md#setup">official install guide</a>. Since this is the most important part of the project, the installation steps are copied here. For the sake of clarity, some comments were removed. See them below.</p>
+<section id="preparation-to-install-the-open-rmf">
+<h2>Preparation to install the Open-RMF<a class="headerlink" href="#preparation-to-install-the-open-rmf" title="Link to this heading"></a></h2>
+<p>Instruction below are aimed at <code class="docutils literal notranslate"><span class="pre">Ubuntu</span> <span class="pre">24.04</span></code> with <code class="docutils literal notranslate"><span class="pre">ROS</span> <span class="pre">2</span> <span class="pre">Jazzy</span></code>.</p>
+<p>First please install ROS 2 via binary debians as mentioned in <a class="reference internal" href="#ros-2"><span class="xref myst">the ROS 2 section</span></a>.</p>
+<p>Install all non-ROS dependencies of Open-RMF packages,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ros-dev-tools<span class="w"> </span>-y
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">rosdep</span></code> helps install dependencies for ROS packages across various distros and will be installed along with <code class="docutils literal notranslate"><span class="pre">ros-dev-tools</span></code>. However, it is important to update it.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># run if first time using rosdep.</span>
+sudo<span class="w"> </span>rosdep<span class="w"> </span>init<span class="w"> </span>
+rosdep<span class="w"> </span>update
+</pre></div>
+</div>
+<p>Update <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">mixin</span></code> if you have not done so previously.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>mixin<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+colcon<span class="w"> </span>mixin<span class="w"> </span>update<span class="w"> </span>default
+</pre></div>
+</div>
+</section>
+<section id="choose-your-open-rmf-installation-type">
+<h2>Choose your Open-RMF installation type<a class="headerlink" href="#choose-your-open-rmf-installation-type" title="Link to this heading"></a></h2>
+<p>If you plan to develop new tools for the Open-RMF install it from source using the <a class="reference internal" href="#building-open-rmf-from-source"><span class="xref myst">install from source section</span></a>. if you just want to test the Open-RMF demos and do not plan to modify the Open-RMF source code <a class="reference internal" href="#binary-installation"><span class="xref myst">install it from binaries</span></a>.</p>
+</section>
+<section id="binary-installation">
+<h2>Binary installation<a class="headerlink" href="#binary-installation" title="Link to this heading"></a></h2>
+<p>First follow the instruction in the <a class="reference internal" href="#preparation-to-install-the-open-rmf"><span class="xref myst">Preparation section</span></a>. Now, install Open-RMF debian packages:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ros-jazzy-rmf-dev
+</pre></div>
+</div>
+<p><strong>Note:</strong> This will install all necessary debian packages to run Open-RMF except for those in <a class="reference external" href="https://github.com/open-rmf/rmf_demos">rmf_demos</a> for reasons described in this <a class="reference external" href="https://github.com/open-rmf/rmf_demos/issues/166">issue</a>. To install the demos check <a class="reference internal" href="#installing-the-rmf_demos"><span class="xref myst">the rmf_demos section</span></a>.</p>
+</section>
+<section id="building-open-rmf-from-source">
+<h2>Building Open-RMF from source<a class="headerlink" href="#building-open-rmf-from-source" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://github.com/open-rmf/rmf/blob/main/README.md#building-from-source">Follow the official guide</a>, which is also presented below.</p>
+<p><strong>Install Gazebo before installing the Open-RMF from source. Follow the instructions in the <a class="reference internal" href="#gazebo-installation"><span class="xref myst">Gazebo installation section</span></a></strong></p>
+<p><strong>Do not try to install both ways (binary packages and from source).</strong></p>
+<p>First follow the instruction in the <a class="reference external" href="https://github.com/open-rmf/rmf/blob/main/README.md#setup">Setup section</a>.</p>
+<p>Due to newer changes in the source code, there might be conflicts and compilation errors with older header files installed by the binaries. Hence before proceeding, make sure to uninstall all Open-RMF binaries for the ROS 2 distro that will be sourced for the build.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>purge<span class="w"> </span>ros-&lt;distro&gt;-rmf*<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>autoremove
+</pre></div>
+</div>
+<section id="download-the-source-code">
+<h3>Download the source code<a class="headerlink" href="#download-the-source-code" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/open-rmf/rmf/blob/main/README.md#download-the-source-code"></a></p>
+<p>Open-RMF is a collection of several repositories/packages. The <a class="reference external" href="https://github.com/open-rmf/rmf/blob/main/rmf.repos">rmf.repos</a> provides a snapshot of these packages. This repository stores different versions of this file depending on the ROS 2 distribution and version of the release. Depending on the use case, you may choose to download this file from one of the following branches in this repository:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code> : Latest version of all packages which may or may not have a binary release yet. This is recommended for development and bug fixes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code>: The latest version of the packages for a specific ROS 2 distro. This may be different from <code class="docutils literal notranslate"><span class="pre">main</span></code> as new API/ABI breaking features merged into <code class="docutils literal notranslate"><span class="pre">main</span></code> will not be backported into <code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code> branches. The packages downloaded from <code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code> may have changes that are not yet available in binaries.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;-release</span></code> : Where <code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code> is a supported ROS 2 distribution (eg. <code class="docutils literal notranslate"><span class="pre">humble</span></code>). The version of packages here will correspond to those of the latest binaries available for this distro.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release-&lt;distro&gt;-YYMMDD</span></code> : A tag for a specific <code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code> where the version of packages correspond to those of the binaries available on <code class="docutils literal notranslate"><span class="pre">YYMMDD</span></code>. See <a class="reference external" href="https://github.com/open-rmf/rmf/releases">Releases</a> for additional information for each release. This is useful if users would like to build packages from an older release.</p></li>
+</ul>
+<p>Setup a new ROS 2 workspace and pull in the demo repositories using <code class="docutils literal notranslate"><span class="pre">vcs</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">main</span></code> with the branch of your choice.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/rmf_ws/src
+<span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+wget<span class="w"> </span>https://raw.githubusercontent.com/open-rmf/rmf/main/rmf.repos
+vcs<span class="w"> </span>import<span class="w"> </span>src<span class="w"> </span>&lt;<span class="w"> </span>rmf.repos
+</pre></div>
+</div>
+<p>Update your rosdep definitions and install dependencies via <code class="docutils literal notranslate"><span class="pre">rosdep</span></code>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+rosdep<span class="w"> </span>update
+<span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash<span class="w"> </span><span class="c1"># replace jazzy with preferred ROS 2 distro.</span>
+rosdep<span class="w"> </span>install<span class="w"> </span>--from-paths<span class="w"> </span>src<span class="w"> </span>--ignore-src<span class="w"> </span>--rosdistro<span class="w"> </span><span class="nv">$ROS_DISTRO</span><span class="w"> </span>-y
+</pre></div>
+</div>
+<p><strong>NOTE: We strongly recommend compiling Open-RMF packages with <code class="docutils literal notranslate"><span class="pre">clang</span></code> as compiler and <code class="docutils literal notranslate"><span class="pre">lld</span></code> as linker.</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>clang<span class="w"> </span>clang-tools<span class="w"> </span>lldb<span class="w"> </span>lld<span class="w"> </span>libstdc++-12-dev
+</pre></div>
+</div>
+<p>Compile the workspace after sourcing the ROS 2 distro of choice.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++
+<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>clang
+colcon<span class="w"> </span>build<span class="w"> </span>--mixin<span class="w"> </span>release<span class="w"> </span>lld
+</pre></div>
+</div>
+<p>The build process will require python cmake module to be installed. On Ubuntu 24.04 it is not possible to install it system wide. Thus, create a virtual environment with all the system packages and build within the package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+virtualenv<span class="w"> </span>--system-site-packages<span class="w"> </span>venv_build
+.<span class="w"> </span>venv_build/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>cmake
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++
+<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>clang
+colcon<span class="w"> </span>build<span class="w"> </span>--mixin<span class="w"> </span>release<span class="w"> </span>lld
+</pre></div>
+</div>
+<blockquote>
+<div><p>NOTE: The first time the build occurs, many simulation models will be downloaded from Gazebo Fuel to populate the scene when the simulation is run. As a result, the first build can take a very long time depending on the server load and your internet connection (may be up to an hour). To build without downloading models append <code class="docutils literal notranslate"><span class="pre">--cmake-args</span> <span class="pre">-DNO_DOWNLOAD_MODELS=On</span></code> to the <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>.</p>
+</div></blockquote>
+<p>After the build is completed, go to the <a class="reference internal" href="#installing-the-rmf_demos"><span class="xref myst">installing the rmf_demos section</span></a>.</p>
+</section>
+</section>
+<section id="installing-the-rmf-demos">
+<h2>Installing the rmf_demos<a class="headerlink" href="#installing-the-rmf-demos" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>If you installed the Open-RMF from source following <a class="reference internal" href="#building-open-rmf-from-source"><span class="xref myst">the source install section</span></a>, you can skip the rmf_demos installation because they already come together with the source code.</p>
+</div></blockquote>
+<p>To build <code class="docutils literal notranslate"><span class="pre">rmf_demos</span></code> from source, first determine the version of <code class="docutils literal notranslate"><span class="pre">rmf_demos</span></code> that corresponds to the latest binary release for your distro. In this project we will use the <code class="docutils literal notranslate"><span class="pre">jazzy</span></code> version.</p>
+<p>Other versions of <code class="docutils literal notranslate"><span class="pre">rmf_demos</span></code> for this release can be found in the <code class="docutils literal notranslate"><span class="pre">rmf.repos</span></code> file in the <code class="docutils literal notranslate"><span class="pre">humble-release</span></code> branch of this repository, for example <a class="reference external" href="https://github.com/open-rmf/rmf/blob/591b0b9f34a021d81522a0af6f42ffcb5fc70293/rmf.repos#L5">here</a>.</p>
+<p>Next create a ROS 2 workspace and build <code class="docutils literal notranslate"><span class="pre">rmf_demos</span></code> from source. Replace the <code class="docutils literal notranslate"><span class="pre">2.0.3</span></code> tag below with the version of <code class="docutils literal notranslate"><span class="pre">rmf_demos</span></code> for your distribution.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>~/rmf_ws/src<span class="w"> </span>-p
+<span class="nb">cd</span><span class="w"> </span>~/rmf_ws/src
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/open-rmf/rmf_demos.git<span class="w"> </span>
+<span class="nb">cd</span><span class="w"> </span>rmf_demos
+git<span class="w"> </span>checkout<span class="w"> </span>jazzy
+</pre></div>
+</div>
+<blockquote>
+<div><p>If your computer does not allow installing python packages system wide, you will need to create a python virtual environment. Some of the Open-RMF packages will require additional python packages such as Python <code class="docutils literal notranslate"><span class="pre">cmake</span></code>.</p>
+</div></blockquote>
+<p>The virtualenv is a self contained python environment separated from the system wide python installation. We need to create a virtualenv because Ubuntu 24.04 does not allow installing python packages system wide.
+0. Install virtualenv: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">virtualenv</span></code></p>
+<ol class="arabic simple">
+<li><p>Go to the rmf_ws: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/rmf_ws</span></code></p></li>
+<li><p>Create the venv with the system wide python packages (check <a class="reference external" href="https://wiki.arcoslab.org/tutorials/python_venv_ros2">this link</a>). We need to create the virtualenv with all the packages because of the ROS 2 packages: <code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">--system-site-packages</span> <span class="pre">venv_rmf_ros2</span></code></p></li>
+<li><p>Activate it: <code class="docutils literal notranslate"><span class="pre">.</span> <span class="pre">venv_rmf_ros2/bin/activate</span></code></p></li>
+<li><p><strong>Python cmake is required</strong> : <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cmake</span></code></p></li>
+</ol>
+<p>Now, build the workspace after the virtual environment is activated:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<p><strong>If you installed the open-rmf from the binary packages, you need to install some ROS 2 dependencies to run the demo examples correctly:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+rosdep<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>--from-path<span class="w"> </span>src<span class="w"> </span>--rosdistro<span class="w"> </span>jazzy<span class="w"> </span>-y
+colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<p>The command above should fix any missing dependency to run the demos.</p>
+</section>
+<section id="testing-a-demo">
+<h2>Testing a demo<a class="headerlink" href="#testing-a-demo" title="Link to this heading"></a></h2>
+<p>To run some demonstrations of Open-RMF in simulation, see <a class="reference external" href="https://github.com/open-rmf/rmf_demos">README in rmf_demos</a>. There you can find the command to run different ready demos from Open-RMF. <strong>Do not forget to change to the <code class="docutils literal notranslate"><span class="pre">jazzy</span></code> branch on the rmf_demos repository.</strong></p>
+<p>Try running the hotel demo:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws
+<span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<span class="nb">source</span><span class="w"> </span>~/rmf_ws/install/setup.bash
+ros2<span class="w"> </span>launch<span class="w"> </span>rmf_demos_gz<span class="w"> </span>hotel.launch.xml
+</pre></div>
+</div>
+<p>The demo should open with RViz and Gazebo.</p>
+<p><strong>If the gazebo window does not load correctly, check the <a class="reference internal" href="#gazebo-issue-with-multicast"><span class="xref myst">multicast issue</span></a>.</strong></p>
+<p>Next, run the following command in a new terminal to command the robots in the scene:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">ros</span><span class="o">/</span><span class="n">jazzy</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">bash</span>
+<span class="n">source</span> <span class="o">~/</span><span class="n">rmf_ws</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">bash</span>
+<span class="n">ros2</span> <span class="n">run</span> <span class="n">rmf_demos_tasks</span> <span class="n">dispatch_patrol</span> <span class="o">-</span><span class="n">p</span> <span class="n">restaurant</span>  <span class="n">L3_master_suite</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="o">--</span><span class="n">use_sim_time</span>
+<span class="n">ros2</span> <span class="n">run</span> <span class="n">rmf_demos_tasks</span> <span class="n">dispatch_clean</span> <span class="o">-</span><span class="n">cs</span> <span class="n">clean_lobby</span> <span class="o">--</span><span class="n">use_sim_time</span>
+</pre></div>
+</div>
+<p>If everything works, the robots should start moving.</p>
+<p>To run some demonstrations of Open-RMF in simulation, see <a class="reference external" href="https://github.com/open-rmf/rmf_demos">README in the rmf_demos repository</a>. <strong>Always remember to change to the jazzy branch in the rmf_demos repository.</strong></p>
+</section>
+</section>
+<section id="traffic-editor">
+<h1>Traffic Editor<a class="headerlink" href="#traffic-editor" title="Link to this heading"></a></h1>
+<p>This tutorial was copied from the <a class="reference external" href="https://github.com/open-rmf/rmf_traffic_editor">original traffic editor repository</a>.</p>
+<section id="installation">
+<h2><a class="reference external" href="https://github.com/open-rmf/rmf_traffic_editor#installation">Installation</a><a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>This repository is structured as a collection of ROS 2 packages and can be built using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>. For full installation of RMF, please refer to <a class="reference external" href="https://github.com/open-rmf/rmf">here</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">rmf_building_map_tools</span></code> package requires the following Python 3 dependencies to generate worlds:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-shapely<span class="w"> </span>python3-yaml<span class="w"> </span>python3-requests
+</pre></div>
+</div>
+<p>Clone the repository to your computer:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/open-rmf/rmf_traffic_editor.git
+</pre></div>
+</div>
+<p>Go to the repository folder and source ROS 2 and the previous installed rmf workspace:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>rmf_traffic_editor
+<span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<span class="nb">source</span><span class="w"> </span>~/rmf_ws/install/setup.bash
+</pre></div>
+</div>
+<p>You will need python cmake to build the ROS 2 rmf traffic editor packages. Thus, we need to create and activate a python virtual environment to install cmake python since Ubuntu 24.04 does not allow installing python packages system wide:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>--system-site-packages<span class="w"> </span>venv_rmf_traffic_editor
+.<span class="w"> </span>venv_rmf_traffic_editor/bin/activate
+</pre></div>
+</div>
+<p>After activating the virtualenv, install python cmake package:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cmake
+</pre></div>
+</div>
+<p>Now, you can build the packages form the rmf_traffic_editor inside the rmf_traffic_editor folder:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_traffic_editor
+colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<p>To test if the traffic editor installation was successfull source the rmf_traffic_editor and run it:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/rmf_traffic_editor/install/setup.bash
+traffic-editor
+</pre></div>
+</div>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Most things here were copied from the <a class="reference external" href="https://osrf.github.io/ros2multirobotbook/traffic-editor.html">official open-rmf book</a>.</p>
+<p>The traffic-editor is composed of the GUI and other tools to auto-generate simulation worlds from GUI outputs. The GUI is a interface that create and annotate 2D floor plans with robot traffic along with building infrastructure information. Also, existing floor plans of the environment, such as architectural drawings can be opened, which simplify the task and provide a “reference” coordinate system for vendor-specific maps. For such cases, <code class="docutils literal notranslate"><span class="pre">traffic-editor</span></code> can import these types of “backgroud images” to serve as a canvas upon which to draw the intended robot traffic maps, and to make it easy to trace the important wall segments required for simulation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">traffic_editor</span></code> GUI projects are stored as <code class="docutils literal notranslate"><span class="pre">yaml</span></code> files with <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> file extensions. Although the typical workflow uses the GUI and does not require hand-editing the <code class="docutils literal notranslate"><span class="pre">yaml</span></code> files directly, we have used a <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file format to make it easy to parse using custom scripting if needed. Each <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> file includes several attributes for each level in the site as annotated by the user. An empty <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> file appears below. The GUI tries to make it easy to add and update content to these file.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">levels</span><span class="p">:</span><span class="w"> </span>
+<span class="err">	</span><span class="nt">L1: doors</span><span class="p">:</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">drawing</span><span class="p">:</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fiducials</span><span class="p">:</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">elevation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">flattened_x_offset</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">flattened_y_offset</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">floors</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vertices</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lanes</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">layers</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">{}</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">measurements</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">models</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"> </span>
+<span class="err">		</span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vertices</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">{}</span><span class="w"> </span>
+<span class="err">		</span><span class="nt">walls</span><span class="p">:</span><span class="w"> </span>
+<span class="err">			</span><span class="p p-Indicator">{}</span><span class="w"> </span>
+<span class="nt">lifts</span><span class="p">:</span><span class="w"> </span>
+<span class="err">	</span><span class="p p-Indicator">{}</span><span class="w"> </span>
+<span class="err">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">building</span>
+</pre></div>
+</div>
+<p><strong>At this point, we recommend you to read the <a class="reference external" href="https://osrf.github.io/ros2multirobotbook/traffic-editor.html">official rmf book sections about the traffic-editor</a>.  Please read all the sections from GUI Layout until the Conclusion section. This tutorial will make you learn how to create a new scenario to be used with the open-rmf.</strong></p>
+</section>
+<section id="tips-for-the-rmf-traffic-editor-tutorial">
+<h2>Tips for the rmf-traffic-editor tutorial<a class="headerlink" href="#tips-for-the-rmf-traffic-editor-tutorial" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Some ready map examples can be found in your rmf_ws folder where you installed the open-rf. They are under the folder: <code class="docutils literal notranslate"><span class="pre">/rmf_ws/src/demonstrations/rmf_demos/rmf_demos_maps/maps</span></code></p></li>
+<li><p>We recommend to do the tutorial with the office map, which is the same from the <a class="reference external" href="https://osrf.github.io/ros2multirobotbook/traffic-editor.html">official tutorial</a> for the traffic-editor.</p></li>
+<li><p>To use run the <a class="reference external" href="https://osrf.github.io/ros2multirobotbook/traffic-editor.html">traffic-editor tutorial</a>, we highly recommend you to copy (duplicate) the office map to another folder and open it from there instead of working on the <code class="docutils literal notranslate"><span class="pre">rmf_demos_maps</span></code>.</p></li>
+<li><p><strong>The first thing you should do after you open the traffic-editor and load your map .png file is to add the measurements on all the known measurements in the map. After adding the measurements (the pink lines), save the map, close the editor and open it again. The traffic-editor will automatically rescale everything.</strong>
+<img alt="alt text" src="_images/map_with_measurements.png" /></p></li>
+<li><p>Adding floor polygon: first add the vertices (green dots) of the polygon and next connect them with the floog polygon tool.</p></li>
+<li><p>If for some reason the zooming of the map behaves strange or if everything in the map vanish for every opened map. Click on the <strong>View</strong> tab and reset the zoom. The map should appear again.</p></li>
+<li><p><strong>Adding feature points</strong>: make sure you select the correct level when adding the feature point. Select the level map to add points on the level map and select the map_scan (the name you gave for the scan of the map) to add features to the scan. Connect the features from the level with the features of the scan using the <strong>Add constraint</strong> option. Last, click on <code class="docutils literal notranslate"><span class="pre">Edit</span> <span class="pre">&gt;</span> <span class="pre">Optimize</span> <span class="pre">Layer</span> <span class="pre">Transform</span></code>. The scan and the map should align automatically.</p></li>
+</ul>
+</section>
+</section>
+<section id="running-a-custom-map">
+<h1>Running a custom map<a class="headerlink" href="#running-a-custom-map" title="Link to this heading"></a></h1>
+<p>Follow the tutorial on the <a class="reference internal" href="open_rmf_custom_map/README.html"><span class="std std-doc">custom map tutorial page</span></a>.</p>
+</section>
+<section id="additional-tools">
+<h1>Additional tools<a class="headerlink" href="#additional-tools" title="Link to this heading"></a></h1>
+<p>There are some additional tools that may be usefull for some more advanced applications with Open-RMF.</p>
+<section id="getting-started-with-the-rmf-web">
+<h2>Getting started with the rmf-web<a class="headerlink" href="#getting-started-with-the-rmf-web" title="Link to this heading"></a></h2>
+<p>This tutorial was copied from the  <a class="reference external" href="https://github.com/open-rmf/rmf-web#getting-started-from-source">official rmf-web repository</a></p>
+<section id="prerequisites">
+<h3><a class="reference external" href="https://github.com/open-rmf/rmf-web#prerequisites">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<p>We currently support <a class="reference external" href="https://releases.ubuntu.com/noble/">Ubuntu 24.04</a>, <a class="reference external" href="https://docs.ros.org/en/jazzy/index.html">ROS 2 Jazzy</a> and the latest Open-RMF release. Other distributions may work as well, but is not guaranteed.</p>
+<p>Install pnpm and nodejs</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.pnpm.io/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-
+<span class="c1"># after installing, source your bashrc file</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+pnpm<span class="w"> </span>env<span class="w"> </span>use<span class="w"> </span>--global<span class="w"> </span>lts
+</pre></div>
+</div>
+<p>For Debian/Ubuntu systems,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv
+</pre></div>
+</div>
+</section>
+<section id="installing-open-rmf-web">
+<h3>Installing Open-RMF Web<a class="headerlink" href="#installing-open-rmf-web" title="Link to this heading"></a></h3>
+<p>To run the Open-RMF web with the demos, you need to have followed the <a class="reference internal" href="#installing-the-rmf_demos"><span class="xref myst">rmf_demos section</span></a>.</p>
+<section id="get-the-rmf-web">
+<h4>Get the rmf-web<a class="headerlink" href="#get-the-rmf-web" title="Link to this heading"></a></h4>
+<p>Clone the <a class="reference internal" href="#git&#64;github.com:open-rmf/rmf-web.git"><span class="xref myst">rmf-web repository</span></a> .</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">rmf</span><span class="o">/</span><span class="n">rmf</span><span class="o">-</span><span class="n">web</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</section>
+<section id="install-dependencies">
+<h4><a class="reference external" href="https://github.com/open-rmf/rmf-web#install-dependencies">Install dependencies</a><a class="headerlink" href="#install-dependencies" title="Link to this heading"></a></h4>
+<p>Run the following commands to install the rmf-web things.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>path/to/rmf-web
+pnpm<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="launching-for-development">
+<h4><a class="reference external" href="https://github.com/open-rmf/rmf-web#launching-for-development">Launching for development</a><a class="headerlink" href="#launching-for-development" title="Link to this heading"></a></h4>
+<p>Source Open-RMF and launch the demo dashboard in development mode,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># For binary installation</span>
+<span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+
+<span class="c1"># For source build: source the rmf_ws you installed in the steps above</span>
+<span class="nb">source</span><span class="w"> </span>/path/to/your/rmf/workspace/install/setup.bash
+
+<span class="nb">cd</span><span class="w"> </span>path/to/your/rmf-web
+<span class="nb">cd</span><span class="w"> </span>packages/rmf-dashboard-framework
+pnpm<span class="w"> </span>start
+</pre></div>
+</div>
+<p>This starts up the API server (by default at port 8000) which sets up endpoints to communicate with an Open-RMF deployment, as well as begin compilation of the demo dashboard. Once completed, it can be viewed at <a class="reference external" href="http://localhost:5173/">localhost:5173</a>.</p>
+<p>If presented with a login screen, use <code class="docutils literal notranslate"><span class="pre">user=admin</span> <span class="pre">password=admin</span></code>.</p>
+<p>Ensure that the fleet adapters in the Open-RMF deployment is configured to use the endpoints of the API server. By default it is <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/_internal</span></code>. Launching a simulation from <a class="reference external" href="https://github.com/open-rmf/rmf_demos"><code class="docutils literal notranslate"><span class="pre">rmf_demos_gz</span></code></a> for example, the command would be,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>rmf_demos_gz<span class="w"> </span>office.launch.xml<span class="w"> </span>server_uri:<span class="o">=</span><span class="s2">&quot;http://localhost:8000/_internal&quot;</span>
+</pre></div>
+</div>
+<p>Now you can dispatch tasks using the rmf-web interface clicking at <a class="reference external" href="http://localhost:5173/">localhost:5173</a>.</p>
+</section>
+<section id="configuration">
+<h4><a class="reference external" href="https://github.com/open-rmf/rmf-web/tree/main#configuration">Configuration</a><a class="headerlink" href="#configuration" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>See the <a class="reference external" href="https://github.com/open-rmf/rmf-web/blob/main/packages/api-server/README.md#configuration">api-server</a> docs for API server run-time configurations.</p></li>
+<li><p><a class="reference external" href="https://github.com/open-rmf/rmf-web/blob/main/packages/api-server/README.md">rmf-dashboard-framework</a> allows you to easily build a dashboard.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Link to this heading"></a></h2>
+<p>Now, to use some open-rmf tools, it will be useful to install docker because some tools provide docker files ready to run (for example, <a class="reference external" href="https://github.com/open-rmf/rmf-web">rmf-web</a>).</p>
+<p>This instructions were copied from the <a class="reference external" href="https://docs.docker.com/desktop/setup/install/linux/ubuntu/">official docker tutorial</a>.</p>
+<section id="id1">
+<h3><a class="reference external" href="https://docs.docker.com/desktop/setup/install/linux/ubuntu/#prerequisites">Prerequisites</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>To install Docker Desktop successfully, you must:</p>
+<ul>
+<li><p>Meet the <a class="reference external" href="https://docs.docker.com/desktop/setup/install/linux/#general-system-requirements">general system requirements</a>.</p></li>
+<li><p>Have an x86-64 system with Ubuntu 22.04, 24.04, or the latest non-LTS version.</p></li>
+<li><p>For non-Gnome Desktop environments, <code class="docutils literal notranslate"><span class="pre">gnome-terminal</span></code> must be installed:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gnome-terminal
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>Note</strong>: Although the <a class="reference external" href="https://docs.docker.com/desktop/setup/install/linux/ubuntu/#prerequisites">official docker installation</a> says it requires <code class="docutils literal notranslate"><span class="pre">gnome-terminal</span></code>, other terminals work as well such as <code class="docutils literal notranslate"><span class="pre">Allacrity</span></code> and <code class="docutils literal notranslate"><span class="pre">Wezterm</span></code>. Thus, you can try to use other terminals instead of <code class="docutils literal notranslate"><span class="pre">gnome-terminal</span></code>.</p>
+</section>
+<section id="install-using-the-apt-repository">
+<h3><a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository">Install using the <code class="docutils literal notranslate"><span class="pre">apt</span></code> repository</a><a class="headerlink" href="#install-using-the-apt-repository" title="Link to this heading"></a></h3>
+<p>Before you install Docker Engine for the first time on a new host machine, you need to set up the Docker <code class="docutils literal notranslate"><span class="pre">apt</span></code> repository. Afterward, you can install and update Docker from the repository.</p>
+<ol class="arabic">
+<li><p>Set up Docker’s <code class="docutils literal notranslate"><span class="pre">apt</span></code> repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add Docker&#39;s official GPG key:</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>ca-certificates<span class="w"> </span>curl
+sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span>-d<span class="w"> </span>/etc/apt/keyrings
+sudo<span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.asc
+sudo<span class="w"> </span>chmod<span class="w"> </span>a+r<span class="w"> </span>/etc/apt/keyrings/docker.asc
+
+<span class="c1"># Add the repository to Apt sources:</span>
+<span class="nb">echo</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \</span>
+<span class="s2">  </span><span class="k">$(</span>.<span class="w"> </span>/etc/os-release<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$VERSION_CODENAME</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>If you use an Ubuntu derivative distribution, such as Linux Mint, you may need to use <code class="docutils literal notranslate"><span class="pre">UBUNTU_CODENAME</span></code> instead of <code class="docutils literal notranslate"><span class="pre">VERSION_CODENAME</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p>Install the Docker packages.</p>
+<p>Latest Specific version</p>
+<hr class="docutils" />
+<p>To install the latest version, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-buildx-plugin<span class="w"> </span>docker-compose-plugin
+</pre></div>
+</div>
+</li>
+<hr class="docutils" />
+<li><p>Verify that the installation is successful by running the <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> image:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>hello-world
+</pre></div>
+</div>
+<p>This command downloads a test image and runs it in a container. When the container runs, it prints a confirmation message and exits.</p>
+</li>
+</ol>
+<p>You have now successfully installed and started Docker Engine.</p>
+</section>
+</section>
+</section>
+<section id="solutions-to-some-reported-issues">
+<h1>Solutions to some reported issues<a class="headerlink" href="#solutions-to-some-reported-issues" title="Link to this heading"></a></h1>
+<section id="gazebo-issue-with-multicast">
+<h2>Gazebo issue with multicast<a class="headerlink" href="#gazebo-issue-with-multicast" title="Link to this heading"></a></h2>
+<p>Thanks to Gabriel Elan (&#64;Elan-gab) for spotting and solving the problem.</p>
+<p>When running rmf_demos_gz package, an ‘Gazebo Sim’ window opens alongside with rviz, but does not respond, even after a long time waiting. The cause of this problem is described <a class="reference external" href="https://github.com/gazebosim/gz-sim/issues/2522">here</a> and <a class="reference external" href="https://github.com/gazebosim/gz-transport/issues/476#issuecomment-2282728388">here</a> as a network configuration issue that is caused by firewall restrictions. This <a class="reference external" href="https://docs.ros.org/en/rolling/How-To-Guides/Installation-Troubleshooting.html#enable-multicast">troubleshooting</a> suggests enabling multicast, which resolved the problem.</p>
+<p>To test the multcast issue run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>multicast<span class="w"> </span>receive
+</pre></div>
+</div>
+<p>In another terminal, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">multicast</span> <span class="n">send</span>
+</pre></div>
+</div>
+<p>If the receiver does not respond, multicast is being blocked by the firewall. To enable multicast:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>proto<span class="w"> </span>udp<span class="w"> </span>to<span class="w"> </span><span class="m">224</span>.0.0.0/4
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>proto<span class="w"> </span>udp<span class="w"> </span>from<span class="w"> </span><span class="m">224</span>.0.0.0/4
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="OP1319 Fleet Management Software" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build-docs.html" class="btn btn-neutral float-right" title="How to build the html and latex documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Iuro Nascimento.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
