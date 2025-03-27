@@ -425,8 +425,23 @@ pnpm install
 
 #### [Launching for development](https://github.com/open-rmf/rmf-web#launching-for-development)
 
-Source Open-RMF and launch the demo dashboard in development mode,
+Source Open-RMF and launch the demo dashboard in development mode. To do this, first we need to start the api-server:
 
+```shell
+# For binary installation
+source /opt/ros/jazzy/setup.bash
+
+# For source build: source the rmf_ws you installed in the steps above
+source /path/to/your/rmf/workspace/install/setup.bash
+
+cd path/to/your/rmf-web
+cd packages/api-server
+pnpm start
+```
+
+This starts up the API server (by default at port 8000) which sets up endpoints to communicate with an Open-RMF deployment, as well as begin compilation of the demo dashboard. 
+
+Next, we start the rmf-dashboard-framework. To do this, open a new terminal and do the following:
 ```shell
 # For binary installation
 source /opt/ros/jazzy/setup.bash
@@ -439,7 +454,7 @@ cd packages/rmf-dashboard-framework
 pnpm start
 ```
 
-This starts up the API server (by default at port 8000) which sets up endpoints to communicate with an Open-RMF deployment, as well as begin compilation of the demo dashboard. Once completed, it can be viewed at [localhost:5173](http://localhost:5173/).
+Once completed, the dashboard can be viewed at [localhost:5173](http://localhost:5173/).
 
 If presented with a login screen, use `user=admin password=admin`.
 
