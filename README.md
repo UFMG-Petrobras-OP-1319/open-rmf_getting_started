@@ -451,7 +451,7 @@ source /path/to/your/rmf/workspace/install/setup.bash
 
 cd path/to/your/rmf-web
 cd packages/rmf-dashboard-framework
-pnpm start
+pnpm start:example examples/demo
 ```
 
 Once completed, the dashboard can be viewed at [localhost:5173](http://localhost:5173/).
