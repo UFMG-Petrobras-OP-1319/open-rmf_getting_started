@@ -1,0 +1,73 @@
+# Base ROS 2 Jazzy + Gazebo Harmonic Docker Image
+# Use Ubuntu 24.04 as base image (Noble) which is the recommended platform for ROS 2 Jazzy
+FROM ubuntu:24.04
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install basic dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg2 \
+    lsb-release \
+    software-properties-common \
+    sudo \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add ROS 2 apt repository
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+# Add Gazebo apt repository
+RUN curl -sSL https://packages.osrfoundation.org/gazebo.gpg -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+
+# Install ROS 2 Jazzy and Gazebo Harmonic
+RUN apt-get update && apt-get install -y \
+    ros-jazzy-desktop-full \
+    ros-jazzy-ros-gz \
+    gz-harmonic \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install development tools and dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    python3-colcon-common-extensions \
+    python3-pip \
+    python3-rosdep \
+    python3-vcstool \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Initialize rosdep
+RUN rosdep init && rosdep update
+
+# Set up environment variables
+ENV ROS_DISTRO=jazzy
+ENV GZ_VERSION=harmonic
+
+# Create a non-root user
+ARG USERNAME=ros
+ARG USER_UID=2000
+ARG USER_GID=2000
+
+# Create the user and group
+RUN groupadd -g $USER_GID $USERNAME && \
+    useradd -m -u $USER_UID -g $USER_GID -s /bin/bash $USERNAME && \
+    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Set up workspace and bashrc as root
+RUN mkdir -p /home/$USERNAME/ros2_ws && \
+    echo "source /opt/ros/jazzy/setup.bash" >> /home/$USERNAME/.bashrc && \
+    chown -R $USERNAME:$USERNAME /home/$USERNAME
+
+# Switch to non-root user
+USER $USERNAME
+WORKDIR /home/$USERNAME/ros2_ws
+
+# Default command
+CMD ["/bin/bash"] 

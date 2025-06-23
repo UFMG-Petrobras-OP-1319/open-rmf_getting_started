@@ -1,0 +1,101 @@
+services:
+  # Base ROS 2 Jazzy + Gazebo Harmonic image
+  ros-gazebo-base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: ros-gazebo-base:latest
+    container_name: ros-gazebo-base
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    # This service is mainly for building the base image
+    profiles: ["base-only"]
+
+  # Open-RMF service
+  openrmf:
+    build:
+      context: .
+      dockerfile: Dockerfile.openrmf
+    image: openrmf:latest
+    container_name: openrmf-container
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - __NV_PRIME_RENDER_OFFLOAD=1
+      - __GLX_VENDOR_LIBRARY_NAME=nvidia
+      # Fix FastRTPS shared memory issues in Docker
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/dev/null
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ../:/workspace:rw
+      # Add shared memory for better performance
+      - /dev/shm:/dev/shm
+    network_mode: host
+    stdin_open: true
+    tty: true
+    privileged: true
+    runtime: nvidia
+    # Add IPC for shared memory
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: /bin/bash
+
+  # Development version with source code mounted
+  openrmf-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.openrmf
+    image: openrmf:latest
+    container_name: openrmf-dev-container
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - __NV_PRIME_RENDER_OFFLOAD=1
+      - __GLX_VENDOR_LIBRARY_NAME=nvidia
+      # Fix FastRTPS shared memory issues in Docker
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/dev/null
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ../:/workspace:rw
+      - ~/.ros:/home/ros/.ros:rw
+      # Add shared memory for better performance
+      - /dev/shm:/dev/shm
+    network_mode: host
+    stdin_open: true
+    tty: true
+    privileged: true
+    runtime: nvidia
+    # Add IPC for shared memory
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    working_dir: /workspace
+    command: /bin/bash 
