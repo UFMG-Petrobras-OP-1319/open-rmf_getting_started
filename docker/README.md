@@ -1,171 +1,417 @@
-# Open-RMF Docker Setup
+# Open-RMF Docker Setup - Complete Guide
 
-This directory contains Docker configurations for running Open-RMF in a containerized environment. The setup consists of two Docker images:
+This directory contains Docker configurations for running Open-RMF in a containerized environment. This guide will explain everything you need to know about Docker, the services available, and how to use them effectively.
 
-1. **Base Image** (`Dockerfile.base`): Contains Ubuntu 24.04, ROS 2 Jazzy, and Gazebo Harmonic
-2. **Open-RMF Image** (`Dockerfile.openrmf`): Builds on the base image and installs Open-RMF following the binary installation method from the main README
+## Table of Contents
+- [What is Docker?](#what-is-docker)
+- [Docker Concepts Explained](#docker-concepts-explained)
+- [Available Services](#available-services)
+- [Quick Start Guide](#quick-start-guide)
+- [Alternative Ways to Run Containers](#alternative-ways-to-run-containers)
+- [Development Workflow](#development-workflow)
+- [Volume Binding Explained](#volume-binding-explained)
+- [Troubleshooting](#troubleshooting)
+- [Next Steps](#next-steps)
 
-## Quick Start
+## What is Docker?
 
-### 1. Setup X11 Display (for GUI applications)
+Docker is a platform that allows you to package applications and their dependencies into standardized units called **containers**. Think of containers as lightweight, portable packages that include everything needed to run your application:
 
-Before running any containers with GUI applications like Gazebo and RViz, run the display setup script:
+- **Operating system libraries** (Ubuntu 24.04 in our case)
+- **Application code** (ROS 2, Gazebo, Open-RMF)
+- **Dependencies** (Python packages, system tools)
+- **Configuration files**
 
+**Benefits of using Docker:**
+- **Consistency**: Same environment across different machines
+- **Isolation**: Applications don't interfere with each other
+- **Portability**: Run anywhere Docker is installed
+- **Version control**: Easy to switch between different versions
+- **Clean environment**: No conflicts with system packages
+
+## Docker Concepts Explained
+
+### Container vs Image
+- **Image**: A read-only template (like a blueprint) that contains the application and its environment
+- **Container**: A running instance of an image (like a house built from a blueprint)
+
+### Docker Compose
+- **What it is**: A tool for defining and running multi-container applications
+- **Why we use it**: Simplifies managing multiple services with a single configuration file
+- **File**: `docker-compose.yml` defines all our services
+
+### Key Docker Commands
 ```bash
-./setup_display.sh
-```
+# Build images from Dockerfiles
+docker build -t image_name:tag .
 
-### 2. Setup NVIDIA GPU Support (recommended)
+# Run a container from an image
+docker run image_name:tag
 
-For better performance with Gazebo and RViz, ensure NVIDIA GPU support is available:
+# List running containers
+docker ps
 
-```bash
-# If GPU support is missing, install nvidia-container-toolkit:
-sudo apt install nvidia-container-toolkit
-sudo systemctl restart docker
-```
+# List all containers (including stopped ones)
+docker ps -a
 
-### 3. Build Docker Images
+# List images
+docker images
 
-```bash
-# Build the base ROS image
-docker compose build ros-gazebo-base
+# Stop a running container
+docker stop container_name
 
-# Build the Open-RMF image
-docker compose build openrmf
-```
+# Remove a container
+docker rm container_name
 
-### 4. Build and Run Open-RMF Container
+# Remove an image
+docker rmi image_name
 
-```bash
-# Build and start the Open-RMF container
-docker compose up openrmf
+# Execute a command in a running container
+docker exec -it container_name /bin/bash
 
-# Or for development with source code mounting
-docker compose up openrmf-dev
-```
-
-### 5. Test Open-RMF Installation
-
-Inside the container, test the installation by running a demo:
-
-```bash
-# Source the environments (already in .bashrc)
-source /opt/ros/jazzy/setup.bash
-source /home/ros/rmf_ws/install/setup.bash
-
-# Run the hotel demo
-ros2 launch rmf_demos_gz hotel.launch.xml
-```
-
-In another terminal (inside the same container), dispatch tasks:
-
-```bash
-# Open another terminal in the running container
-docker exec -it openrmf-container /bin/bash
-
-# Source environments
-source /opt/ros/jazzy/setup.bash
-source /home/ros/rmf_ws/install/setup.bash
-
-# Dispatch tasks
-ros2 run rmf_demos_tasks dispatch_patrol -p restaurant L3_master_suite -n 1 --use_sim_time
-ros2 run rmf_demos_tasks dispatch_clean -cs clean_lobby --use_sim_time
+# View container logs
+docker logs container_name
 ```
 
 ## Available Services
 
-### `openrmf`
-- Full Open-RMF installation with rmf_demos
-- Suitable for running demos and testing
-- Container name: `openrmf-container`
+Our `docker-compose.yml` defines three main services:
 
-### `openrmf-dev`
-- Same as `openrmf` but with workspace mounted as volume
-- Suitable for development and code editing
-- Source code changes are persistent
-- Container name: `openrmf-dev-container`
+### 1. `ros-gazebo-base` (Base Service)
+- **Purpose**: Foundation image with ROS 2 Jazzy + Gazebo Harmonic
+- **Use case**: Building other images, testing basic ROS functionality
+- **Profile**: Only available with `--profile base-only` flag
+- **Container name**: `ros-gazebo-base`
 
-### `ros-gazebo-base`
-- Base image with ROS 2 and Gazebo only
-- Used for building the Open-RMF image
-- Available with profile: `docker compose --profile base-only up ros-gazebo-base`
+### 2. `openrmf` (Production Service)
+- **Purpose**: Complete Open-RMF installation ready for demos
+- **Use case**: Running demos, testing, production use
+- **Container name**: `openrmf-container`
+- **Features**: Full Open-RMF installation with rmf_demos
 
-## Manual Build Commands
+### 3. `openrmf-dev` (Development Service)
+- **Purpose**: Development environment with source code mounting
+- **Use case**: Code development, debugging, testing changes
+- **Container name**: `openrmf-dev-container`
+- **Features**: Source code mounted as volume, persistent changes
 
-If you prefer to build images manually:
+## Quick Start Guide
 
+### Prerequisites
+- Docker installed and running
+- NVIDIA GPU support (recommended for better performance)
+- X11 display setup (for GUI applications)
+
+### Step 1: Setup Display (Required for GUI)
 ```bash
-# Build base image
-docker build -f Dockerfile.base -t ros-gazebo-base:latest .
+# Make the script executable
+chmod +x setup_display.sh
 
-# Build Open-RMF image
+# Run the display setup
+./setup_display.sh
+```
+
+**What this does**: Sets up X11 forwarding so GUI applications (Gazebo, RViz) can display on your host machine.
+
+### Step 2: Setup NVIDIA GPU Support (Recommended)
+```bash
+# Install NVIDIA Container Toolkit
+sudo apt install nvidia-container-toolkit
+
+# Restart Docker service
+sudo systemctl restart docker
+
+# Verify installation
+docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+```
+
+**What this does**: Enables GPU acceleration for better Gazebo and RViz performance.
+
+### Step 3: Build Images
+```bash
+# Build all services (recommended)
+docker compose build
+
+# Or build specific services
+docker compose build ros-gazebo-base
+docker compose build openrmf
+```
+
+**What this does**: Creates Docker images from the Dockerfile definitions.
+
+### Step 4: Run Open-RMF
+```bash
+# For production/demo use
+docker compose up openrmf
+
+# For development with source code mounting
+docker compose up openrmf-dev
+
+# Run in background
+docker compose up -d openrmf-dev
+```
+
+**What this does**: Starts the container and makes it available for use.
+
+### Step 5: Access the Container
+```bash
+# If running in foreground, you're already inside
+# If running in background, connect to it:
+docker exec -it openrmf-container /bin/bash
+# or for dev container:
+docker exec -it openrmf-dev-container /bin/bash
+```
+
+### Step 6: Test Installation
+```bash
+# Source ROS environments
+source /opt/ros/jazzy/setup.bash
+source /home/ros/rmf_ws/install/setup.bash
+
+# Run hotel demo
+ros2 launch rmf_demos_gz hotel.launch.xml
+```
+
+## Alternative Ways to Run Containers
+
+While we recommend Docker Compose, here are alternatives:
+
+### 1. Direct Docker Run (Manual)
+```bash
+# Build image first
 docker build -f Dockerfile.openrmf -t openrmf:latest .
+
+# Run container manually
+docker run -it \
+  --name my-openrmf \
+  --network host \
+  --privileged \
+  --runtime nvidia \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v /tmp/.docker.xauth:/tmp/.docker.xauth:rw \
+  -v $(pwd)/..:/workspace:rw \
+  openrmf:latest /bin/bash
 ```
 
-## Directory Structure
+**Pros**: Full control over parameters
+**Cons**: Complex commands, harder to manage
 
+### 2. Docker Compose (Recommended)
+```bash
+# Start service
+docker compose up openrmf
+
+# Start in background
+docker compose up -d openrmf
+
+# Stop service
+docker compose down openrmf
+
+# View logs
+docker compose logs openrmf
 ```
-docker/
-├── Dockerfile.base          # Base ROS 2 + Gazebo image
-├── Dockerfile.openrmf       # Open-RMF installation
-├── docker-compose.yml       # Multi-service configuration
-├── setup_display.sh         # X11 setup for GUI apps
-├── README.md                # This file
-├── entrypoint.sh            # Container entrypoint (legacy)
-└── run.sh                   # Container runner (legacy)
+
+**Pros**: Simple commands, configuration management, service orchestration
+**Cons**: Less flexibility for one-off containers
+
+### 3. Docker Compose with Overrides
+```bash
+# Create docker-compose.override.yml for custom settings
+# Then run normally
+docker compose up openrmf
 ```
 
-## Installation Methods
+## Development Workflow
 
-The Open-RMF Docker image follows the binary installation method from the main README, which includes:
+### Using the Development Service
+```bash
+# Start development container
+docker compose up -d openrmf-dev
 
-- Installing `ros-jazzy-rmf-dev` package
-- Cloning and building `rmf_demos` from source
-- Setting up Python virtual environment for Ubuntu 24.04 compatibility
-- Installing required Python packages (`cmake`, `shapely`, `yaml`, `requests`)
-- NVIDIA GPU support for hardware-accelerated Gazebo and RViz
+# Connect to container
+docker exec -it openrmf-dev-container /bin/bash
+
+# Your source code is mounted at /workspace
+cd /workspace
+ls -la  # See your files
+```
+
+### Making Code Changes
+1. **Edit files on your host machine** (they're automatically available in the container)
+2. **Build inside the container** (ROS build system, dependencies available)
+3. **Test changes immediately** (no need to rebuild images)
+
+### Rebuilding After Major Changes
+```bash
+# If you modify Dockerfiles or need fresh environment
+docker compose build openrmf-dev
+docker compose up -d openrmf-dev
+```
+
+## Volume Binding Explained
+
+Volume binding connects directories between your host machine and the container:
+
+### Volume Mappings in Our Services
+```yaml
+volumes:
+  - /tmp/.X11-unix:/tmp/.X11-unix:rw          # X11 display
+  - /tmp/.docker.xauth:/tmp/.docker.xauth:rw   # X11 authentication
+  - ../:/workspace:rw                          # Your source code
+  - ~/.ros:/home/ros/.ros:rw                   # ROS configuration
+  - /dev/shm:/dev/shm                          # Shared memory
+```
+
+### What Each Volume Does
+
+#### 1. X11 Display (`/tmp/.X11-unix`)
+- **Host**: `/tmp/.X11-unix` (X11 socket)
+- **Container**: `/tmp/.X11-unix`
+- **Purpose**: Allows GUI applications to display on your screen
+- **Mode**: `rw` (read-write)
+
+#### 2. X11 Authentication (`/tmp/.docker.xauth`)
+- **Host**: `/tmp/.docker.xauth` (X11 auth file)
+- **Container**: `/tmp/.docker.xauth`
+- **Purpose**: Authenticates X11 connections
+- **Mode**: `rw` (read-write)
+
+#### 3. Source Code (`../:/workspace`)
+- **Host**: `../` (parent directory of docker folder)
+- **Container**: `/workspace`
+- **Purpose**: Makes your code available inside container
+- **Mode**: `rw` (read-write) - changes persist!
+
+#### 4. ROS Configuration (`~/.ros:/home/ros/.ros`)
+- **Host**: `~/.ros` (your ROS config)
+- **Container**: `/home/ros/.ros`
+- **Purpose**: Preserves ROS settings between runs
+- **Mode**: `rw` (read-write)
+
+#### 5. Shared Memory (`/dev/shm:/dev/shm`)
+- **Host**: `/dev/shm` (shared memory)
+- **Container**: `/dev/shm`
+- **Purpose**: Better performance for inter-process communication
+- **Mode**: `rw` (read-write)
+
+### Volume Binding Benefits
+- **Persistence**: Changes survive container restarts
+- **Real-time sync**: Edit on host, see in container immediately
+- **Performance**: No need to copy files
+- **Development**: Iterate quickly without rebuilding images
 
 ## Troubleshooting
 
-### GUI Applications Not Working
+### Common Issues and Solutions
 
-1. Make sure you ran `./setup_display.sh` before starting containers
-2. Check if your display is set: `echo $DISPLAY`
-3. For NVIDIA GPUs, ensure nvidia-container-toolkit is installed
+#### 1. GUI Applications Not Working
+```bash
+# Check display setup
+echo $DISPLAY
 
-### Container Permission Issues
+# Re-run display setup
+./setup_display.sh
 
-The containers run as user `ros` (UID 2000) to avoid permission issues. If you encounter file permission problems with mounted volumes, check the ownership of your files.
+# Verify X11 forwarding
+xhost +local:docker
+```
 
-### Network Issues
+#### 2. Permission Issues
+```bash
+# Check file ownership
+ls -la
 
-If you experience networking problems (e.g., multicast issues mentioned in the main README), the containers use `network_mode: host` to avoid Docker networking complications.
+# Fix permissions if needed
+sudo chown -R $USER:$USER .
+```
 
-### GPU/Graphics Issues
+#### 3. GPU Issues
+```bash
+# Test NVIDIA support
+docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 
-If you experience slow graphics or Gazebo performance issues:
-1. Install NVIDIA Container Toolkit: `sudo apt install nvidia-container-toolkit`
-2. Restart Docker: `sudo systemctl restart docker`
-3. Verify with: `docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi`
+# Reinstall if needed
+sudo apt install --reinstall nvidia-container-toolkit
+sudo systemctl restart docker
+```
 
-### Building Issues
+#### 4. Network Issues
+```bash
+# Check if host networking works
+docker run --rm --network host ubuntu:latest ip addr
 
-If builds fail due to network timeouts or download issues:
-1. Try building again (some downloads might have failed)
-2. Check your internet connection
-3. Consider using the `--no-cache` flag: `docker compose build --no-cache`
+# Verify multicast support
+docker run --rm --network host ubuntu:latest ping -c 1 224.0.0.1
+```
+
+#### 5. Build Failures
+```bash
+# Clean build (no cache)
+docker compose build --no-cache
+
+# Check disk space
+df -h
+
+# Verify internet connection
+docker run --rm ubuntu:latest ping -c 3 google.com
+```
+
+### Debugging Commands
+```bash
+# View container logs
+docker compose logs openrmf
+
+# Check container status
+docker compose ps
+
+# Inspect container details
+docker inspect openrmf-container
+
+# View resource usage
+docker stats openrmf-container
+```
 
 ## Next Steps
 
-Once your Open-RMF Docker environment is running:
+Once your Docker environment is running:
 
-1. Follow the [Traffic Editor tutorial](../README.md#traffic-editor) to create custom maps
-2. Explore the [custom map tutorial](../open_rmf_custom_map/README.md)
-3. Try setting up [rmf-web](../README.md#getting-started-with-the-rmf-web) for web interface
+1. **Explore the demos**: Try different rmf_demos scenarios
+2. **Custom maps**: Follow the [custom map tutorial](../open_rmf_custom_map/README.md)
+3. **Traffic Editor**: Learn to create custom maps
+4. **rmf-web**: Set up the web interface
+5. **Real robots**: Connect to physical hardware
 
 ## Additional Resources
 
 - [Main Open-RMF README](../README.md)
 - [Open-RMF Documentation](https://osrf.github.io/ros2multirobotbook/)
-- [rmf_demos Repository](https://github.com/open-rmf/rmf_demos) 
+- [rmf_demos Repository](https://github.com/open-rmf/rmf_demos)
+- [Docker Official Documentation](https://docs.docker.com/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+
+## Quick Reference Commands
+
+```bash
+# Start development environment
+docker compose up -d openrmf-dev
+
+# Connect to container
+docker exec -it openrmf-dev-container /bin/bash
+
+# Stop all services
+docker compose down
+
+# Rebuild after changes
+docker compose build openrmf-dev
+
+# View running containers
+docker compose ps
+
+# View logs
+docker compose logs -f openrmf-dev
+```
+
+---
+
+**Need help?** Check the troubleshooting section above or refer to the main Open-RMF documentation. The Docker setup provides a consistent, isolated environment perfect for both development and production use of Open-RMF. 
