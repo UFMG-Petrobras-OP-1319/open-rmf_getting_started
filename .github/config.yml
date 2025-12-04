@@ -1,0 +1,12 @@
+# Optional: Disable opening blank issues
+blank_issues_enabled: false
+# Optional: Link users to other places for help
+#contact_links:
+#  - name: Ask a question
+#    url: https://github.com/your-username/your-repo/discussions
+#    about: Ask and answer questions with the community.
+
+# Optional: List of issue templates (GitHub automatically detects templates in ISSUE_TEMPLATE/)
+# This is useful if you want to exclude certain templates from the chooser.
+issue_forms:
+  - ISSUE_TEMPLATE.md
