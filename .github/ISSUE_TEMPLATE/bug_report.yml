@@ -1,0 +1,71 @@
+name: Bug Report
+description: Report a reproducible bug or unexpected behavior.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  # 1. Introduction
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible to help us fix the issue quickly.
+        
+  # 2. Describe the Bug
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: Tell us what is broken!
+    validations:
+      required: true
+      
+  # 3. Steps to Reproduce
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Explain the exact steps necessary to reliably reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. Observe the error
+    validations:
+      required: true
+      
+  # 4. Expected Behavior
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+      
+  # 5. Screenshots/Context (Optional)
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Error Messages
+      description: If applicable, add screenshots or copy-paste error messages to help explain your problem. You can drag and drop images here.
+    validations:
+      required: false
+
+  # 6. Desktop Information (Input fields for OS and ROS)
+  - type: input
+    id: os
+    attributes:
+      label: Operating System (OS)
+      description: Which operating system are you using?
+      placeholder: e.g. Windows 11, iOS 17.5, linux 24.04
+    validations:
+      required: true
+
+  - type: input
+    id: ros
+    attributes:
+      label: ROS Distribution (If Applicable)
+      description: If this relates to a ROS environment, what distribution is it?
+      placeholder: e.g. Jazzy, Humble, Foxy
+    validations:
+      required: false
