@@ -9,4 +9,4 @@ blank_issues_enabled: false
 # Optional: List of issue templates (GitHub automatically detects templates in ISSUE_TEMPLATE/)
 # This is useful if you want to exclude certain templates from the chooser.
 issue_forms:
-  - ISSUE_TEMPLATE.md
+  - bug_report.md
