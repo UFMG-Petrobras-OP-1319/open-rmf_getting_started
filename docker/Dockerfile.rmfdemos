@@ -1,0 +1,44 @@
+# Open-RMF demos Docker Image
+
+# Build on top of the openrmf image
+FROM openrmf:latest
+
+# Switch to user for workspace setup
+USER ros
+
+# Set working directory: change to the ros user's home
+WORKDIR /home/ros
+
+RUN mkdir -p /home/ros/rmf_demos_ws/src
+
+# Set working directory to rmf_demos_ws/src
+WORKDIR /home/ros/rmf_demos_ws/src
+
+# Clone just rmf_demos for practical learning (lighter build)
+# Clone the OP-1319 branch for compatibility with the OP-1319 project
+RUN git clone https://github.com/UFMG-Petrobras-OP-1319/rmf_demos.git && \
+    cd rmf_demos && \
+    git checkout jazzy
+
+# Set working directory to rmf_demos_ws/src
+WORKDIR /home/ros/rmf_demos_ws
+
+# Build rmf_demos and source the workspace
+RUN . /opt/ros/jazzy/setup.sh && colcon build && source install/setup.bash
+
+# Switch back to root for final setup
+USER root
+
+# Ensure .ros and .gazebo directories have correct permissions and set up model links
+RUN mkdir -p /home/ros/.ros /home/ros/.gazebo/models/Open-RMF && \
+    chown -R ros:ros /home/ros/.ros /home/ros/.gazebo && \
+    chmod -R 777 /home/ros/.ros && 
+
+# Switch back to ros user
+USER ros
+
+# Link the project models to Gazebo
+RUN ln -sf /home/ros/rmf_ws/install/rmf_demos_assets/share/rmf_demos_assets/models/* /home/ros/.gazebo/models/Open-RMF/ || true
+
+# Default command
+CMD ["/bin/bash"] 
