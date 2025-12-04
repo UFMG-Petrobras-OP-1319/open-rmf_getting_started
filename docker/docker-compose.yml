@@ -43,6 +43,7 @@ services:
       - ../:/workspace:rw
       # Add shared memory for better performance
       - /dev/shm:/dev/shm
+      - ./entrypoint.sh:/entrypoint.sh:ro
     network_mode: host
     stdin_open: true
     tty: true
@@ -57,7 +58,7 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    command: /bin/bash
+    command: /bin/bash ./entrypoint.sh
 
   # Development version with source code mounted
   openrmf-dev:
@@ -98,4 +99,47 @@ services:
               count: all
               capabilities: [gpu]
     working_dir: /workspace
+    command: /bin/bash 
+
+    # Development version with source code mounted
+  rmfdemos:
+    build:
+      context: .
+      dockerfile: Dockerfile.rmfdemos
+    image: rmfdemos:latest
+    container_name: rmfdemos-container
+    depends_on:
+      - openrmf
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - __NV_PRIME_RENDER_OFFLOAD=1
+      - __GLX_VENDOR_LIBRARY_NAME=nvidia
+      # Fix FastRTPS shared memory issues in Docker
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/dev/null
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ../:/workspace:rw
+      - ~/.ros:/home/ros/.ros:rw
+      # Add shared memory for better performance
+      - /dev/shm:/dev/shm
+    network_mode: host
+    stdin_open: true
+    tty: true
+    privileged: true
+    runtime: nvidia
+    # Add IPC for shared memory
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    working_dir: /home/ros/rmf_demos_ws
     command: /bin/bash 
