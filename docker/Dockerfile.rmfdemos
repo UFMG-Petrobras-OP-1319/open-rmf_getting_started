@@ -18,13 +18,41 @@ WORKDIR /home/ros/rmf_demos_ws/src
 # Clone the OP-1319 branch for compatibility with the OP-1319 project
 RUN git clone https://github.com/UFMG-Petrobras-OP-1319/rmf_demos.git && \
     cd rmf_demos && \
-    git checkout jazzy
+    git checkout jazzy-office-demo
+
+# Switch back to root for installing Python packages system-wide
+USER root
+
+# Install dependencies for OP-1319 workspace using rosdep
+RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && \
+    cd /home/ros/rmf_demos_ws && \
+    rosdep install --from-paths src --ignore-src --rosdistro jazzy -y --skip-keys='ros-jazzy-backward-ros backward-ros' || true"
+
+# Copy requirements.txt for Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+
+# Install Python packages system-wide since ROS nodes need them at runtime
+# Use --no-deps to avoid conflicts with system packages
+RUN pip3 install --break-system-packages --no-deps -r /tmp/requirements.txt
+
+# Switch back to ros user for building
+USER ros
 
 # Set working directory to rmf_demos_ws/src
 WORKDIR /home/ros/rmf_demos_ws
 
 # Build rmf_demos and source the workspace
-RUN . /opt/ros/jazzy/setup.sh && colcon build && source install/setup.bash
+# Use bash because originally docker uses sh which does not support source command with bash scripts
+RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && colcon build && source install/setup.bash"
+
+# Update bashrc to source both workspaces and set environment
+RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/ros/.bashrc && \
+    echo "source /home/ros/rmf_ws/install/setup.bash" >> /home/ros/.bashrc && \
+    echo "source /home/ros/rmf_demos_ws/install/setup.bash" >> /home/ros/.bashrc && \
+    echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:/home/ros/rmf_demos_ws/install/rmf_demos_assets/share/rmf_demos_assets/models:/home/ros/rmf_demos_ws/install/rmf_demos_maps/share/rmf_demos_maps/maps:/home/ros/.gazebo/models" >> /home/ros/.bashrc && \
+    echo "export GZ_SIM_SYSTEM_PLUGIN_PATH=\$GZ_SIM_SYSTEM_PLUGIN_PATH:/opt/ros/jazzy/lib/rmf_robot_sim_gz_plugins:/home/ros/rmf_demos_ws/install/rmf_robot_sim_gz_plugins/lib:/opt/ros/jazzy/lib/rmf_building_sim_gz_plugins:/home/ros/rmf_demos_ws/install/rmf_building_sim_gz_plugins/lib" >> /home/ros/.bashrc && \
+    echo "export GZ_GUI_PLUGIN_PATH=\$GZ_GUI_PLUGIN_PATH:/home/ros/rmf_demos_ws/install/rmf_building_sim_gz_plugins/lib" >> /home/ros/.bashrc && \
+    echo "export GZ_SIM_RESOURCE_PATH=\$GZ_SIM_RESOURCE_PATH:/home/ros/rmf_demos_ws/install/rmf_demos_assets/share/rmf_demos_assets:/home/ros/rmf_demos_ws/install/rmf_demos_maps/share/rmf_demos_maps:/home/ros/.gazebo" >> /home/ros/.bashrc
 
 # Switch back to root for final setup
 USER root
@@ -32,13 +60,29 @@ USER root
 # Ensure .ros and .gazebo directories have correct permissions and set up model links
 RUN mkdir -p /home/ros/.ros /home/ros/.gazebo/models/Open-RMF && \
     chown -R ros:ros /home/ros/.ros /home/ros/.gazebo && \
-    chmod -R 777 /home/ros/.ros && 
+    chmod -R 777 /home/ros/.ros
 
 # Switch back to ros user
 USER ros
 
 # Link the project models to Gazebo
 RUN ln -sf /home/ros/rmf_ws/install/rmf_demos_assets/share/rmf_demos_assets/models/* /home/ros/.gazebo/models/Open-RMF/ || true
+
+# Link the project models to Gazebo
+RUN ln -sf /home/ros/rmf_demos_ws/install/rmf_demos_assets/share/rmf_demos_assets/models/* /home/ros/.gazebo/models/Open-RMF/ || true && \
+    ln -sf /home/ros/rmf_demos_ws/install/rmf_demos_maps/share/rmf_demos_maps/maps/*/models/* /home/ros/.gazebo/models/OP1319/ || true
+
+# Change to venv
+WORKDIR /home/ros/rmf_demos_ws
+
+# # Create virtual environment (Ubuntu 24.04 requirement)
+# RUN python3 -m venv --system-site-packages venv_rmf_demos
+
+# # Change PATH to include virtual environment binaries
+# ENV PATH="/home/ros/rmf_demos_ws/venv_rmf_demos/bin:$PATH"
+
+# # Activate virtual environment and install annotated-doc package
+# RUN /bin/bash -c ". venv_rmf_demos/bin/activate && pip install annotated-doc"
 
 # Default command
 CMD ["/bin/bash"] 
