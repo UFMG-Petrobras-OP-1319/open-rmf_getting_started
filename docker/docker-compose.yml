@@ -120,6 +120,8 @@ services:
       - __GLX_VENDOR_LIBRARY_NAME=nvidia
       # Fix FastRTPS shared memory issues in Docker
       - FASTRTPS_DEFAULT_PROFILES_FILE=/dev/null
+      # Timezone synchronization
+      - TZ=${TZ:-UTC}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
@@ -127,6 +129,11 @@ services:
       - ~/.ros:/home/ros/.ros:rw
       # Add shared memory for better performance
       - /dev/shm:/dev/shm
+      # Bind GPU render devices for Gazebo
+      - /dev/dri:/dev/dri:rw
+      # Timezone synchronization
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     network_mode: host
     stdin_open: true
     tty: true
