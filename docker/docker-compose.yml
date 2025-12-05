@@ -126,7 +126,8 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
       - ../:/workspace:rw
-      - ~/.ros:/home/ros/.ros:rw
+      # Don't mount host .ros directory - let container use its own
+      # - ~/.ros:/home/ros/.ros:rw
       # Add shared memory for better performance
       - /dev/shm:/dev/shm
       # Bind GPU render devices for Gazebo
@@ -141,6 +142,8 @@ services:
     runtime: nvidia
     # Add IPC for shared memory
     ipc: host
+    # Set the user to ensure proper permissions
+    # user: "1000:1000"
     deploy:
       resources:
         reservations:
