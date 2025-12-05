@@ -1,0 +1,44 @@
+# Core dependencies with specific versions
+pydantic==2.10.3
+pydantic-core==2.27.1
+annotated-types==0.7.0
+typing-inspection==0.4.1
+
+# Web framework and API
+fastapi
+annotated-doc
+uvicorn
+websockets
+starlette
+anyio
+click
+h11
+sniffio
+bidict
+
+# MQTT and WebSocket
+paho-mqtt
+simple-websocket
+wsproto
+
+# Flask ecosystem
+flask
+flask-socketio
+flask-cors
+python-engineio
+python-socketio
+blinker
+itsdangerous
+jinja2
+markupsafe
+werkzeug
+
+# Geospatial and building map tools
+fiona
+shapely
+geopandas
+rtree
+pyproj
+nudged
+python-multipart
+transforms3d
