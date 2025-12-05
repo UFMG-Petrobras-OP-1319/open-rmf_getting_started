@@ -34,12 +34,6 @@ RUN colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mix
 RUN mkdir -p /home/ros/rmf_ws/src
 WORKDIR /home/ros/rmf_ws
 
-# Clone just rmf_demos for practical learning (lighter build)
-RUN cd src && \
-    git clone https://github.com/open-rmf/rmf_demos.git && \
-    cd rmf_demos && \
-    git checkout jazzy
-
 # Switch back to root for dependency installation (rosdep needs sudo)
 USER root
 
