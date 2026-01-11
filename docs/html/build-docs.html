@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to build the html and latex documentation &mdash; op1319  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Build system installation" href="install-docs.html" />
+    <link rel="prev" title="open-rmf_getting_started" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            op1319
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">open-rmf_getting_started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#roadmap">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#ros-2">ROS 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#gazebo-installation">Gazebo installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#gazebo-ros-2-installation">Gazebo ROS 2 installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#open-rmf">Open-RMF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#traffic-editor">Traffic Editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#running-a-custom-map">Running a custom map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#additional-tools">Additional tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#solutions-to-some-reported-issues">Solutions to some reported issues</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to build the html and latex documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workflow-and-installed-environment">Workflow and installed environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automatically-handling-of-environments-switch">Automatically handling of environments switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manually-handling-of-environment-switch">Manually handling of environment switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-html-or-latex-documentation-from-the-markdown-files">Building html or latex documentation from the markdown files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install-docs.html">Build system installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="open_rmf_custom_map/README.html">Open-RMF-Custom-Map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="open_rmf_custom_map/README.html#tips-on-the-custom-map">Tips on the custom map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="open_rmf_custom_map/README.html#issues">Issues</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">op1319</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How to build the html and latex documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/build-docs.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-build-the-html-and-latex-documentation">
+<h1>How to build the html and latex documentation<a class="headerlink" href="#how-to-build-the-html-and-latex-documentation" title="Link to this heading"></a></h1>
+<p>This is a brief guide on how to build the html and/or latex documentation. If you
+have not installed the documentation build system (Sphinx + extensions), refer
+to the installation <a class="reference internal" href="install-docs.html"><span class="std std-doc">documentation</span></a>.</p>
+<section id="workflow-and-installed-environment">
+<h2>Workflow and installed environment<a class="headerlink" href="#workflow-and-installed-environment" title="Link to this heading"></a></h2>
+<p>The build system relies on python environments to isolate its dependencies from
+the system packages. To isolate even further, we use poetry to manage a isolated
+environment for the build system, and we automatically activate the environment
+when you type cd to go into the root of the project and automatically deactivates
+this environment when leaving the project.</p>
+<p>Once you are in the project root, you can run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>html
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>latex
+</pre></div>
+</div>
+<p>to generate the desired documentation from the markdown. The documentation files
+are built into <code class="docutils literal notranslate"><span class="pre">build/{html,latex}</span></code>. regular pdflatex can handle the latex to pdf
+conversion and any server like github pages can host the html documentation
+website.</p>
+<p>Note: you don’t have to change anything in the markdown files that are
+compatible with GitHub Markdown, you only have to reserve the index.md file to
+include markdown + extensions from Myst parser so the build process can work.
+Those extensions can be used in other markdown files, but they are not
+recognized by GitHub.</p>
+</section>
+<section id="automatically-handling-of-environments-switch">
+<h2>Automatically handling of environments switch<a class="headerlink" href="#automatically-handling-of-environments-switch" title="Link to this heading"></a></h2>
+<p>After the installation script set up a python environment for working with Sphinx,
+you can <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the project root, pyautoenv takes care of automatically
+deactivate any active python environment activate the current project poetry
+environment. After you change directory to outside the project pyautoenv
+automatically deactivate the project environment, but do not activate the
+previous environment, so if there was any environment activated, you have to
+reactivate yourself.</p>
+<p>If you don’t want to isolate the build system from the system or your base
+environment, refer to the installation <a class="reference internal" href="install-docs.html"><span class="std std-doc">documentation</span></a> on how to
+install the build system into your environment.</p>
+</section>
+<section id="manually-handling-of-environment-switch">
+<h2>Manually handling of environment switch<a class="headerlink" href="#manually-handling-of-environment-switch" title="Link to this heading"></a></h2>
+<p>to activate the environment, if you have another environment activated,
+deactivate first to avoid conflicts running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
+</pre></div>
+</div>
+<p>or for Conda environments:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>conda<span class="w"> </span>deactivate
+</pre></div>
+</div>
+<p>Otherwise, run inside the repository folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>deactivate<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="k">$(</span>poetry<span class="w"> </span>env<span class="w"> </span>activate<span class="k">)</span>
+</pre></div>
+</div>
+<p>After building the docs, deactivate by running and reactivating any
+environment you were using before this process.</p>
+<p>This process isolates the Sphinx from the rest of the system and
+environment packages from Sphinx and dependencies.</p>
+</section>
+<section id="building-html-or-latex-documentation-from-the-markdown-files">
+<h2>Building html or latex documentation from the markdown files<a class="headerlink" href="#building-html-or-latex-documentation-from-the-markdown-files" title="Link to this heading"></a></h2>
+<p>build the html or latex documentation:
+From root of the repository, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">  </span>$<span class="w"> </span>make<span class="w"> </span>html
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>latex
+</pre></div>
+</div>
+<p>or equivalently:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>.<span class="w"> </span>build
+</pre></div>
+</div>
+<p>The HTML output will appear in ./build/html/.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="open-rmf_getting_started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install-docs.html" class="btn btn-neutral float-right" title="Build system installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Iuro Nascimento.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

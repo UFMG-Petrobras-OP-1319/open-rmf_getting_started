@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open-RMF-Custom-Map &mdash; op1319  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Build system installation" href="../install-docs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            op1319
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">open-rmf_getting_started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#roadmap">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#ros-2">ROS 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#gazebo-installation">Gazebo installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#gazebo-ros-2-installation">Gazebo ROS 2 installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#open-rmf">Open-RMF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#traffic-editor">Traffic Editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#running-a-custom-map">Running a custom map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#additional-tools">Additional tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#solutions-to-some-reported-issues">Solutions to some reported issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build-docs.html">How to build the html and latex documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install-docs.html">Build system installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Open-RMF-Custom-Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-the-custom-map-workspace-folder">Preparing the custom map workspace folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changing-the-map">Changing the map</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#tips-on-the-custom-map">Tips on the custom map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#changes-to-the-workspace">Changes to the workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#no-repeated-node-names-in-the-map">No repeated node names in the map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#robot-config-files">Robot <code class="docutils literal notranslate"><span class="pre">_config</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-different-fleets-of-robots">Add different fleets of robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-different-lanes-on-the-map">Using different lanes on the map</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#issues">Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-order-of-the-source-commands-matters">The order of the <code class="docutils literal notranslate"><span class="pre">source</span></code> commands matters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-new-robots-to-the-map">Adding new robots to the map</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">op1319</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Open-RMF-Custom-Map</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/open_rmf_custom_map/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="open-rmf-custom-map">
+<h1>Open-RMF-Custom-Map<a class="headerlink" href="#open-rmf-custom-map" title="Link to this heading"></a></h1>
+<section id="preparing-the-custom-map-workspace-folder">
+<h2>Preparing the custom map workspace folder<a class="headerlink" href="#preparing-the-custom-map-workspace-folder" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>We highly recommend you to create a new workspace without any other package. Otherwise, if you reuse the same workspace <code class="docutils literal notranslate"><span class="pre">rmf_ws</span></code> you used to install the Open-RMF from source, it will take much more time to build, clean, and rebuild this custom map example if needed.</p>
+</div></blockquote>
+<p>Create a RMF ROS 2 workspace directory:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>rmf_ws_custom_map/src
+</pre></div>
+</div>
+<p>Change to the <code class="docutils literal notranslate"><span class="pre">src</span></code>  folder:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>rmf_ws_custom_map/src
+</pre></div>
+</div>
+<p>Clone the Open-RMF demos repository in the workspace <code class="docutils literal notranslate"><span class="pre">src</span></code> folder:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/open-rmf/rmf_demos.git
+</pre></div>
+</div>
+<p>Change to the <code class="docutils literal notranslate"><span class="pre">jazzy</span></code> branch (<strong>this branch is more stable than the main branch for the ROS 2 jazzy</strong>):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>rmf_demos
+git<span class="w"> </span>checkout<span class="w"> </span>jazzy
+</pre></div>
+</div>
+<p>Change back to the workspace folder, check for missing dependencies:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws_custom_map
+rosdep<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>--from-path<span class="w"> </span>src<span class="w"> </span>--rosdistro<span class="w"> </span>jazzy<span class="w"> </span>-y
+</pre></div>
+</div>
+<p>Create a python virtual environment with system wide packages and activate it:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>--system-site-packages<span class="w"> </span>venv_custom_maps
+.<span class="w"> </span>venv_custom_maps/bin/activate
+</pre></div>
+</div>
+<p>Install Python cmake in the virtualenv:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cmake
+</pre></div>
+</div>
+<p>Source your ROS 2 installation and build the workspace:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<p><strong>If the <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> result in any packages not being built correctly, run it a second time. After the second time, all packages will probably be built, not sure why.</strong></p>
+<p>Let us check if the build worked by running a demo example. Source your open-rmf installation (that you installed from source), source the custom map workspace, and run the demo. <strong>Follow exactly this order of <code class="docutils literal notranslate"><span class="pre">source</span></code> commands</strong>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># source the open-rmf installation from source</span>
+<span class="nb">source</span><span class="w"> </span>~/rmf_ws/install/setup.bash
+<span class="c1"># Source the custom_map workspace</span>
+<span class="nb">source</span><span class="w"> </span>~/rmf_ws_custom_map/install/setup.bash
+<span class="c1"># Run the office demo</span>
+ros2<span class="w"> </span>launch<span class="w"> </span>rmf_demos_gz<span class="w"> </span>office.launch.xml
+</pre></div>
+</div>
+<p>The RViz window should open quickly, but the Gazebo Window may take a while depending on your computer specifications (CPU, GPU, and so on). <strong>If Gazebo does not open on the first try, close the RViz and kill the demo command on the terminal and run it again. Wait some time for the Gazebo to open.</strong></p>
+<p>Before closing the demo run from the last step, try running a task. Open a new terminal, source the ROS 2 installation, source the <code class="docutils literal notranslate"><span class="pre">~/rmf_ws</span></code>   installation, source the <code class="docutils literal notranslate"><span class="pre">rmf_ws_custom_map</span></code> and run the task command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<span class="nb">source</span><span class="w"> </span>~/rmf_ws/install/setup.bash
+<span class="nb">source</span><span class="w"> </span>~/rmf_ws_custom_map/install/setup.bash
+ros2<span class="w"> </span>run<span class="w"> </span>rmf_demos_tasks<span class="w"> </span>dispatch_delivery<span class="w"> </span>-p<span class="w"> </span>pantry<span class="w"> </span>-ph<span class="w"> </span>coke_dispenser<span class="w"> </span>-d<span class="w"> </span>hardware_2<span class="w"> </span>-dh<span class="w"> </span>coke_ingestor<span class="w"> </span>--use_sim_time
+</pre></div>
+</div>
+<p>The robot 2 should go to the pantry, get a coke and deliver to the coke ingestor.</p>
+</section>
+<section id="changing-the-map">
+<h2>Changing the map<a class="headerlink" href="#changing-the-map" title="Link to this heading"></a></h2>
+<p>Create your map in the <code class="docutils literal notranslate"><span class="pre">traffic-editor</span></code> and copy the saved <code class="docutils literal notranslate"><span class="pre">&lt;your_map&gt;.building.yaml</span></code> to the <code class="docutils literal notranslate"><span class="pre">~/rmf_ws_custom_map/src/rmf_demos/rmf_demos_maps/maps/office/office.building.yaml</span></code>with the same name. Name it as <code class="docutils literal notranslate"><span class="pre">office.building.yaml</span></code>. Inside the <code class="docutils literal notranslate"><span class="pre">office.building.yaml</span></code>  make sure the path to the <code class="docutils literal notranslate"><span class="pre">office.png</span></code> and to the <code class="docutils literal notranslate"><span class="pre">office_scan.png</span></code> is correct.</p>
+<p><strong>If you want, you can try with <a class="reference download internal" download="" href="../_downloads/a34114bbdc9546caf9b86c1f0bb4a0c3/office.building.yaml"><span class="xref download myst">this map example of the custom office</span></a>. Just move it to the <code class="docutils literal notranslate"><span class="pre">~/rmf_ws_custom_map/src/rmf_demos/rmf_demos_maps/maps/office/</span></code> directory.</strong></p>
+<p>Open a new terminal, source ROS 2 and source the workspace:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws_custom_map
+<span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+<p>Clean your workspace :</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws_custom_map
+rm<span class="w"> </span>-r<span class="w"> </span>install/<span class="w"> </span>build/<span class="w"> </span>log/
+</pre></div>
+</div>
+<p>Build your workspace again and source it:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/rmf_ws_custom_map
+colcon<span class="w"> </span>build
+<span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+<p><strong>If your build fails because of python <code class="docutils literal notranslate"><span class="pre">cmake</span></code>, then activate the virtual environment: <code class="docutils literal notranslate"><span class="pre">.</span> <span class="pre">venv_custom_maps/bin/activate</span></code>.</strong></p>
+<p>Now, when you run the office demo example, it will launch with your map:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>rmf_demos_gz<span class="w"> </span>office.launch.xml
+</pre></div>
+</div>
+<p>If you want to add robot nodes in the traffic editor, add the following properties to the node in the traffic editor by clicking on the node and clicking on <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">property</span></code>:</p>
+<p><img alt="robot_properties" src="../_images/robot_properties_traffic_editor.png" /></p>
+</section>
+</section>
+<section id="tips-on-the-custom-map">
+<h1>Tips on the custom map<a class="headerlink" href="#tips-on-the-custom-map" title="Link to this heading"></a></h1>
+<section id="changes-to-the-workspace">
+<h2>Changes to the workspace<a class="headerlink" href="#changes-to-the-workspace" title="Link to this heading"></a></h2>
+<p>For every change you make on any file, you need to rebuild your workspace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">rmf_ws_custom_map</span>
+<span class="n">colcon</span> <span class="n">build</span>
+<span class="n">source</span> <span class="n">install</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>If after the <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> the changes you made did not work, you can try cleaning the workspace and building again:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="n">log</span><span class="o">/</span> <span class="n">build</span><span class="o">/</span> <span class="n">install</span><span class="o">/</span>
+<span class="n">cd</span> <span class="o">~/</span><span class="n">rmf_ws_custom_map</span>
+<span class="n">colcon</span> <span class="n">build</span>
+<span class="n">source</span> <span class="n">install</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+</section>
+<section id="no-repeated-node-names-in-the-map">
+<h2>No repeated node names in the map<a class="headerlink" href="#no-repeated-node-names-in-the-map" title="Link to this heading"></a></h2>
+<p>Always make sure no two nodes have the same name. Otherwise, the lanes will not be loaded properly.</p>
+</section>
+<section id="robot-config-files">
+<h2>Robot <code class="docutils literal notranslate"><span class="pre">_config</span></code> files<a class="headerlink" href="#robot-config-files" title="Link to this heading"></a></h2>
+<p>For every robot on the scene, there must be a config for it. To do this modify the config file accordingly at <code class="docutils literal notranslate"><span class="pre">~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office</span></code>.</p>
+<p>To add new robots to the map, you need to add a config file for the robot at <code class="docutils literal notranslate"><span class="pre">~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/office</span></code>. For example, if you want to add a deliveryRobot to the office demo, copy the deliveryRobot_config.yaml from the hotel example located at <code class="docutils literal notranslate"><span class="pre">/home/marcos/rmf_ws_custom_map/src/rmf_demos/rmf_demos/config/hotel/deliveryRobot_config.yaml</span></code>. Just make sure that <strong>all the robot names</strong> inside the <code class="docutils literal notranslate"><span class="pre">deliveryRobot_config.yaml</span></code> are the same from the robot you add/spawn in your map nodes created in the traffic-editor. Check the <code class="docutils literal notranslate"><span class="pre">name</span></code>, the <code class="docutils literal notranslate"><span class="pre">robots</span></code> and their subproperties (for example, the <code class="docutils literal notranslate"><span class="pre">charger</span></code> in the case of the delivery robot). All the name related things should mirror the robot node from the map <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> created with the traffic editor.</p>
+<p>In this example, you may need to update the <code class="docutils literal notranslate"><span class="pre">tinyRobot_config.yaml</span></code> by adding the <code class="docutils literal notranslate"><span class="pre">tinyRobot2</span></code> and the <code class="docutils literal notranslate"><span class="pre">tinyRobot3</span></code>. You can copy the model that is already in the <code class="docutils literal notranslate"><span class="pre">tinyRobot_config.yaml</span></code> for the <code class="docutils literal notranslate"><span class="pre">tinyRobot1</span></code>.</p>
+<p>If you do not want to open the traffic editor to check the properties of each robot node, they are also available in the <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> file. For instance, check the following lines inside the <a class="reference download internal" download="" href="../_downloads/a34114bbdc9546caf9b86c1f0bb4a0c3/office.building.yaml"><span class="xref download myst">office.building.yaml</span></a>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">...</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1549.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">468.44600000000003</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot1_charger</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">is_charger</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_holding_point</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_parking_spot</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot1</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_type</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">TinyRobot</span><span class="p p-Indicator">]}]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">895.73500000000001</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">251.386</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">elevator</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1992.46</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">632.95500000000004</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">cubicle</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1704.5699999999999</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">648.94899999999996</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot3_charger</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">is_charger</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_holding_point</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_parking_spot</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot3</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_type</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">TinyRobot</span><span class="p p-Indicator">]}]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">747.221</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">614.67600000000004</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">office1</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2385.4520000000002</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">413.61000000000001</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">helpdesk</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">876.51599999999996</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1119.2380000000001</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot2_charger</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">is_charger</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_holding_point</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_parking_spot</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot2</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_type</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">TinyRobot</span><span class="p p-Indicator">]}]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1513.9860000000001</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">648.31700000000001</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">deliveryRobot1_charger</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">is_charger</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_holding_point</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> is_parking_spot</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">deliveryRobot1</span><span class="p p-Indicator">],</span><span class="nt"> spawn_robot_type</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">DeliveryRobot</span><span class="p p-Indicator">]}]</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>Last, after you have all the robot nodes properties, you can change the <code class="docutils literal notranslate"><span class="pre">_config.yaml</span></code> files of each robot. For instance, the <code class="docutils literal notranslate"><span class="pre">tinyRobot_config.yaml</span></code> will have the following lines modified (<strong>note the names are exactly the same from the properties above</strong>):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">...</span>
+<span class="nt">robots</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">tinyRobot1</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">charger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tinyRobot1_charger&quot;</span>
+<span class="w">        </span><span class="nt">responsive_wait</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"> </span><span class="c1"># Should responsive wait be on/off for this specific robot? Overrides the fleet-wide setting.</span>
+<span class="w">    </span><span class="nt">tinyRobot2</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">charger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tinyRobot2_charger&quot;</span>
+<span class="w">        </span><span class="c1"># No mention of responsive_wait means the fleet-wide setting will be used</span>
+<span class="w">    </span><span class="nt">tinyRobot3</span><span class="p">:</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">charger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tinyRobot3_charger&quot;</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>and the <code class="docutils literal notranslate"><span class="pre">deliveryRobot_config.yaml</span></code> will have the following modifications:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">...</span>
+<span class="nt">robots</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">deliveryRobot1</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">charger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deliveryRobot1_charger&quot;</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+</section>
+<section id="add-different-fleets-of-robots">
+<h2>Add different fleets of robots<a class="headerlink" href="#add-different-fleets-of-robots" title="Link to this heading"></a></h2>
+<p>To add a new fleet with different robot types, call the new fleet in the file <code class="docutils literal notranslate"><span class="pre">~/rmf_ws_custom_map/src/rmf_demos/rmf_demos/launch/office.launch.xml</span></code> (we are using the office map as the example modified custom map). Do not forget to change the <code class="docutils literal notranslate"><span class="pre">nav_graphs/&lt;fleet_number&gt;.yaml</span></code> to the lane of the new fleet. <strong>Note that the Open-RMF does not solve conflicts between two different lanes. Thus, if you have different lanes, make sure they will not cause conflicts or collisions.</strong></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>...
+<span class="cm">&lt;!-- TinyRobot fleet adapter --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;group&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share rmf_demos_fleet_adapter)/launch/fleet_adapter.launch.xml&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;use_sim_time&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(var use_sim_time)&quot;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;nav_graph_file&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(find-pkg-share rmf_demos_maps)/maps/office/nav_graphs/0.yaml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;config_file&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(find-pkg-share rmf_demos)/config/office/tinyRobot_config.yaml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/include&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">  </span><span class="cm">&lt;!-- ADDING A FLEET OF DeliveryRobot --&gt;</span>
+<span class="w">  </span><span class="cm">&lt;!-- DeliveryRobot fleet adapter --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;group&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share rmf_demos_fleet_adapter)/launch/fleet_adapter.launch.xml&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;use_sim_time&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(var use_sim_time)&quot;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;nav_graph_file&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(find-pkg-share rmf_demos_maps)/maps/office/nav_graphs/0.yaml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;config_file&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(find-pkg-share rmf_demos)/config/office/deliveryRobot_config.yaml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/include&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/group&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="using-different-lanes-on-the-map">
+<h2>Using different lanes on the map<a class="headerlink" href="#using-different-lanes-on-the-map" title="Link to this heading"></a></h2>
+<p>If you want to add the fleet on a new lane/route different, you need to change the lane graph in the traffic-editor. To do this, click on the lane you want to change and press a number from 0 to 10. It should change the color of the lane graph. Each graph correspond to a number and a color. The blue lane is on graph 1. When calling the fleet adapter on the <code class="docutils literal notranslate"><span class="pre">.launch.xml</span></code> just change the <code class="docutils literal notranslate"><span class="pre">nav_graphs</span></code> to the layer you want (in this case <code class="docutils literal notranslate"><span class="pre">1.yaml</span></code>):
+<img alt="lane_graphs" src="../_images/lane_graphs.png" /></p>
+</section>
+</section>
+<section id="issues">
+<h1>Issues<a class="headerlink" href="#issues" title="Link to this heading"></a></h1>
+<p>Some issues may happen. Here we leave some solutions.</p>
+<section id="the-order-of-the-source-commands-matters">
+<h2>The order of the <code class="docutils literal notranslate"><span class="pre">source</span></code> commands matters<a class="headerlink" href="#the-order-of-the-source-commands-matters" title="Link to this heading"></a></h2>
+<p>When sourcing multiple workspaces, the last <code class="docutils literal notranslate"><span class="pre">source</span></code> command will take effect over the other ones. Thus, if follow the exact order of <code class="docutils literal notranslate"><span class="pre">source</span></code> commands the tutorial tells you. For instance, when <a class="reference internal" href="#changing-the-map"><span class="xref myst">testing the custom map office</span></a>, if you source first the <code class="docutils literal notranslate"><span class="pre">rmf_ws_custom_map/install/setup.bash</span></code> and then the <code class="docutils literal notranslate"><span class="pre">~/rmf_ws/install/setup.bash</span></code>, the map that will be loaded is the one in the <code class="docutils literal notranslate"><span class="pre">rmf_ws</span></code>. Therefore, to run the custom map you need to source first the <code class="docutils literal notranslate"><span class="pre">~/rmf_ws</span></code> and last the <code class="docutils literal notranslate"><span class="pre">~/rmf_ws_custom_map</span></code>.</p>
+<p>Last, to prevent any conflicts, always open a new terminal if anything stops working. Every time you open a new terminal, it opens without any previous <code class="docutils literal notranslate"><span class="pre">source</span></code> commands and you can start fresh again.</p>
+</section>
+<section id="adding-new-robots-to-the-map">
+<h2>Adding new robots to the map<a class="headerlink" href="#adding-new-robots-to-the-map" title="Link to this heading"></a></h2>
+<p>The traffic-editor should add everything you modify on the editor to the <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> file. However, we had this issue on the first time the nodes for the new robots were added.</p>
+<p>To add the robots to the map, you need to add them in the <code class="docutils literal notranslate"><span class="pre">crowd_sim</span> <span class="pre">&gt;</span> <span class="pre">agent_groups</span> <span class="pre">&gt;</span> <span class="pre">agents_names</span></code> property of the <code class="docutils literal notranslate"><span class="pre">.building.yaml</span></code> file manually in the <code class="docutils literal notranslate"><span class="pre">agent_groups</span> <span class="pre">&gt;</span> <span class="pre">agents_name</span> <span class="pre">&gt;</span> <span class="pre">[add_names_here_separated_by_commas]</span></code>. Also, change the <code class="docutils literal notranslate"><span class="pre">agents_number</span></code> to the number of agents you inserted in the list:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">crowd_sim</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">agent_groups</span><span class="p">:</span>
+<span class="err">	</span><span class="w">  </span><span class="c1"># Add the agents_name to the list of agents_name</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">agents_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">tinyRobot1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tinyRobot2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">&lt;ADD_MORE_ROBOTS_HERE&gt;</span><span class="p p-Indicator">],</span><span class="nt"> agents_number</span><span class="p">:</span><span class="w"> </span><span class="nv">&lt;NUMBER_OF_ROBOTS_USED&gt;</span><span class="p p-Indicator">,</span><span class="nt"> group_id</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> profile_selector</span><span class="p">:</span><span class="w"> </span><span class="nv">external_agent</span><span class="p p-Indicator">,</span><span class="nt"> state_selector</span><span class="p">:</span><span class="w"> </span><span class="nv">external_static</span><span class="p p-Indicator">,</span><span class="nt"> x</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> y</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>After changing things on the <code class="docutils literal notranslate"><span class="pre">office.building.yaml</span></code>, rebuild your workspace with <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> and launch the map:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>rmf_demos_gz<span class="w"> </span>office.launch.xml
+</pre></div>
+</div>
+<p>Open a new terminal and send the tasks (this an example, you need to adapt it to your map):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>rmf_demos_tasks<span class="w"> </span>dispatch_patrol<span class="w"> </span>-p<span class="w"> </span>cubicle<span class="w"> </span>office2<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>--use_sim_time
+ros2<span class="w"> </span>run<span class="w"> </span>rmf_demos_tasks<span class="w"> </span>dispatch_patrol<span class="w"> </span>-p<span class="w"> </span>deliveryOffice2<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>--use_sim_time
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../install-docs.html" class="btn btn-neutral float-left" title="Build system installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Iuro Nascimento.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
