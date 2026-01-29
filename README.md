@@ -192,6 +192,8 @@ export CC=clang
 colcon build --mixin release lld
 ```
 
+> If your computer does not allow installing python packages system wide, you will need to create a python virtual environment. Some of the Open-RMF packages will require additional python packages such as Python `cmake`.
+
 NOTE: [If you have a problem]. The build process will require python cmake module to be installed. On Ubuntu 24.04 it is not possible to install it system wide. Thus, create a virtual environment with all the system packages and build within the package:
 ```bash
 cd ~/rmf_ws
