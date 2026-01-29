@@ -192,7 +192,7 @@ export CC=clang
 colcon build --mixin release lld
 ```
 
-The build process will require python cmake module to be installed. On Ubuntu 24.04 it is not possible to install it system wide. Thus, create a virtual environment with all the system packages and build within the package:
+NOTE: [If you have a problem]. The build process will require python cmake module to be installed. On Ubuntu 24.04 it is not possible to install it system wide. Thus, create a virtual environment with all the system packages and build within the package:
 ```bash
 cd ~/rmf_ws
 virtualenv --system-site-packages venv_build
