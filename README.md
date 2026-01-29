@@ -278,6 +278,9 @@ To run some demonstrations of Open-RMF in simulation, see [README in the rmf_de
 
 # Traffic Editor
 
+> If you installed the Open-RMF from source following the source install section, you can skip the rmf_demos installation because they already come together with the source code.
+
+
 This tutorial was copied from the [original traffic editor repository](https://github.com/open-rmf/rmf_traffic_editor).
 
 ## [Installation](https://github.com/open-rmf/rmf_traffic_editor#installation)
