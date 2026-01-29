@@ -211,7 +211,7 @@ After the build is completed, go to the [installing the rmf_demos section](#inst
 
 ## Installing the rmf_demos
 
-> <span style="color:red">**If you installed the Open-RMF from source following [the source install section](#building-open-rmf-from-source), you can skip the rmf_demos installation because they already come together with the source code.**</span>
+> <font color="red">**If you installed the Open-RMF from source following [the source install section](#building-open-rmf-from-source), you can skip the rmf_demos installation because they already come together with the source code.**</span>
 
 To build `rmf_demos` from source, first determine the version of `rmf_demos` that corresponds to the latest binary release for your distro. In this project we will use the `jazzy` version.
 
